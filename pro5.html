@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>EM Dienstleistung — Sauberkeit auf höchstem Niveau</title>
+<meta name="description" content="EM Dienstleistung Ingolstadt — Ihr zuverlässiger Partner für Sauberkeit. Praxis-, Trockeneis-, Wohnungs-, Büro-, Bauend- & Glasreinigung." />
+<link rel="icon" href="assets/logo/em-logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --red:#C0392B; --red-deep:#A93226; --red-bright:#e0584a; --glow:#ff7a5c;
+    --paper:#F4F1EB; --muted:#9a9389;
+    --stage-h:780vh; --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:auto;-webkit-text-size-adjust:100%}
+  body{background:#0b0a09;color:var(--paper);font-family:'Inter',system-ui,sans-serif;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--red);color:#fff}
+  a{color:inherit}
+
+  /* ---------- Loader ---------- */
+  #loader{position:fixed;inset:0;z-index:100;background:#0b0a09;overflow:hidden;transition:opacity 1s var(--ease),visibility 1s var(--ease)}
+  #loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+  #loader .introvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  #loader .lscrim{position:absolute;inset:0;z-index:1;background:radial-gradient(120% 90% at 50% 42%,transparent 26%,rgba(11,10,9,.5) 100%),linear-gradient(180deg,transparent 56%,rgba(11,10,9,.9))}
+  #loader .lui{position:absolute;left:0;right:0;bottom:8vh;z-index:2;display:flex;flex-direction:column;align-items:center;gap:16px}
+  #loader .bar{width:200px;height:3px;background:rgba(255,255,255,.16);border-radius:99px;overflow:hidden}
+  #loader .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--red-bright));border-radius:99px;transition:width .3s linear}
+  #loader .lmsg{font-family:'Sora';font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:rgba(244,241,235,.72)}
+  #loader .go{opacity:0;pointer-events:none;transition:opacity .6s var(--ease);display:flex;flex-direction:column;align-items:center;gap:10px}
+  #loader .go .ms{font-family:'Sora';font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#fff}
+  #loader .mouse{width:24px;height:38px;border:2px solid rgba(244,241,235,.6);border-radius:14px;position:relative}
+  #loader .mouse::after{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);width:3px;height:7px;border-radius:99px;background:var(--paper);animation:wheel 1.6s var(--ease) infinite}
+  #loader.ready .bar,#loader.ready .lmsg{display:none}
+  #loader.ready .go{opacity:1;pointer-events:auto}
+  @keyframes wheel{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,12px)}}
+
+  /* ---------- Header ---------- */
+  header{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(18px,4vw,52px);transition:background .5s var(--ease),backdrop-filter .5s var(--ease),padding .5s var(--ease)}
+  header.solid{background:rgba(11,10,9,.55);backdrop-filter:blur(14px) saturate(1.2);padding-top:12px;padding-bottom:12px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+  .brand img{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(192,57,43,.5))}
+  .brand b{font-family:'Sora';font-weight:800;font-size:18px;letter-spacing:-.02em;color:#fff;white-space:nowrap}
+  .brand b span{color:var(--red-bright)}
+  .nav{display:flex;align-items:center;gap:30px}
+  .nav .links{display:flex;gap:30px}
+  .nav a{color:rgba(244,241,235,.78);text-decoration:none;font-size:14px;font-weight:500;transition:color .3s var(--ease)}
+  .nav a:hover{color:#fff}
+  .cta{display:inline-flex;align-items:center;gap:9px;font-family:'Sora';font-weight:600;font-size:14px;color:#fff;text-decoration:none;cursor:pointer;border:0;padding:11px 20px;border-radius:99px;background:linear-gradient(135deg,var(--red-bright),var(--red-deep));box-shadow:0 6px 20px -6px rgba(192,57,43,.7),inset 0 1px 0 rgba(255,255,255,.18);transition:transform .35s var(--ease),box-shadow .35s var(--ease),filter .35s var(--ease)}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 12px 30px -8px rgba(192,57,43,.85);filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid rgba(244,241,235,.28);color:#fff;box-shadow:none}
+  .ghost:hover{background:rgba(244,241,235,.08);border-color:rgba(244,241,235,.5);transform:translateY(-2px)}
+  @media(max-width:760px){.nav .links{display:none}.brand b{font-size:16px}.nav{gap:14px}header{padding-left:16px;padding-right:16px}.cta{padding:10px 16px}}
+
+  /* ---------- Film stage (scroll-scrub) ---------- */
+  .scroll-root{position:relative;height:var(--stage-h)}
+  .stage{position:sticky;top:0;height:100svh;overflow:hidden}
+  .film,.film video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .film video{display:block;background:#000}
+  .grade{position:absolute;inset:0;pointer-events:none;background:
+      radial-gradient(120% 80% at 50% 8%, rgba(11,10,9,.05), rgba(11,10,9,.6) 95%),
+      radial-gradient(90% 70% at 18% 92%, rgba(169,50,38,.4), transparent 60%),
+      linear-gradient(180deg, rgba(11,10,9,.5) 0%, transparent 22%, transparent 58%, rgba(11,10,9,.78) 100%)}
+  .sidescrim{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .6s var(--ease)}
+  body[data-side="left"] .sidescrim{opacity:1;background:linear-gradient(90deg,rgba(11,10,9,.74) 0%,rgba(11,10,9,.25) 40%,transparent 66%)}
+  body[data-side="right"] .sidescrim{opacity:1;background:linear-gradient(270deg,rgba(11,10,9,.74) 0%,rgba(11,10,9,.25) 40%,transparent 66%)}
+
+  /* ---------- Film scenes (V2 alternating sides) ---------- */
+  .scenes{position:absolute;inset:0;z-index:5}
+  .scene{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(22px,7vw,120px);opacity:0;visibility:hidden;transition:opacity .7s var(--ease),visibility .7s var(--ease);will-change:opacity}
+  .scene.active{opacity:1;visibility:visible}
+  .scene.right{align-items:flex-end;text-align:right}
+  .scene .inner{max-width:660px;opacity:0;transition:transform 1s var(--ease),opacity 1s var(--ease)}
+  .scene.left .inner{transform:translateX(-70px)}
+  .scene.right .inner{transform:translateX(70px)}
+  .scene.active .inner{transform:none;opacity:1}
+  .scene--hero .inner{max-width:840px}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Sora';font-weight:600;font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--red-bright);margin-bottom:20px}
+  .eyebrow::before{content:"";width:34px;height:2px;background:linear-gradient(90deg,var(--red-bright),transparent)}
+  .scene.right .eyebrow{flex-direction:row-reverse}
+  .scene.right .eyebrow::before{background:linear-gradient(270deg,var(--red-bright),transparent)}
+  h1{font-family:'Sora';font-weight:800;letter-spacing:-.035em;line-height:1.0;font-size:clamp(2.4rem,5.6vw,4.7rem);color:#fff;text-shadow:0 14px 50px rgba(0,0,0,.5)}
+  h2{font-family:'Sora';font-weight:700;letter-spacing:-.03em;line-height:1.04;font-size:clamp(2rem,5vw,3.7rem);color:#fff;text-shadow:0 12px 40px rgba(0,0,0,.5)}
+  h2 em{font-style:normal;color:var(--red-bright)}
+  .lead{font-size:clamp(1.02rem,1.6vw,1.32rem);color:rgba(244,241,235,.9);margin-top:18px;max-width:46ch}
+  .scene.right .lead{margin-left:auto}
+
+  /* rotating headline (V8) */
+  .rot{position:relative;display:block;height:1.12em;overflow:hidden;width:100%;margin-top:.02em}
+  .rot span{position:absolute;left:0;right:0;top:0;white-space:nowrap;color:var(--red-bright);transform:translateY(115%);opacity:0;transition:transform .6s var(--ease),opacity .55s var(--ease)}
+  .rot span.in{transform:translateY(0);opacity:1}
+  .rot span.out{transform:translateY(-115%);opacity:0}
+
+  .hero-lockup{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+  .hero-lockup img{width:clamp(54px,7vw,82px);height:auto;filter:drop-shadow(0 14px 38px rgba(192,57,43,.5))}
+  .hero-lockup .word{font-family:'Sora';font-weight:800;font-size:clamp(1.3rem,2.8vw,2rem);letter-spacing:-.03em;line-height:1;color:#fff}
+  .hero-lockup .word em{font-style:normal;color:var(--red-bright)}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+  .scene.right .hero-actions{justify-content:flex-end}
+  .trust{display:flex;gap:26px;margin-top:28px;flex-wrap:wrap;color:rgba(244,241,235,.72);font-size:.92rem}
+  .scene.right .trust{justify-content:flex-end}
+  .trust b{font-family:'Sora';font-weight:700;color:#fff;margin-right:6px}
+  .chips{display:flex;flex-wrap:wrap;gap:11px;margin-top:26px}
+  .scene.right .chips{justify-content:flex-end}
+  .chip{display:flex;align-items:center;gap:11px;padding:13px 17px;border-radius:14px;background:rgba(20,16,15,.5);border:1px solid rgba(244,241,235,.13);font-family:'Sora';font-weight:600;font-size:clamp(.92rem,1.2vw,1.05rem);color:#fff;box-shadow:0 10px 30px -14px rgba(0,0,0,.7);transition:transform .4s var(--ease);transform-style:preserve-3d}
+  .chip .dot{width:9px;height:9px;border-radius:99px;background:var(--red-bright);box-shadow:0 0 12px var(--red-bright);flex:none}
+  .badges{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+  .scene.right .badges{justify-content:flex-end}
+  .badge{display:flex;align-items:center;gap:12px;padding:15px 19px;border-radius:16px;background:rgba(20,16,15,.52);border:1px solid rgba(244,241,235,.13);box-shadow:0 14px 40px -18px rgba(0,0,0,.8);transition:transform .4s var(--ease);transform-style:preserve-3d}
+  .badge svg{width:24px;height:24px;flex:none}
+  .badge b{font-family:'Sora';font-weight:600;font-size:1rem;color:#fff;display:block;line-height:1.2}
+  .badge small{color:rgba(244,241,235,.65);font-size:.82rem}
+
+  /* progress + dots + cue */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0%;z-index:70;background:linear-gradient(90deg,var(--red-deep),var(--glow));box-shadow:0 0 14px rgba(224,88,74,.7)}
+  .dots{position:fixed;right:26px;top:50%;transform:translateY(-50%);z-index:55;display:flex;flex-direction:column;gap:13px;transition:opacity .4s var(--ease)}
+  .dots button{width:9px;height:9px;border-radius:99px;border:0;cursor:pointer;background:rgba(244,241,235,.3);transition:transform .35s var(--ease),background .35s var(--ease)}
+  .dots button.on{background:var(--red-bright);transform:scale(1.5);box-shadow:0 0 12px var(--red-bright)}
+  .cue{position:fixed;bottom:54px;left:50%;transform:translateX(-50%);z-index:30;display:flex;flex-direction:column;align-items:center;gap:9px;color:rgba(244,241,235,.7);font-size:11px;letter-spacing:.24em;text-transform:uppercase;transition:opacity .5s var(--ease)}
+  .cue .mouse{width:24px;height:38px;border:2px solid rgba(244,241,235,.5);border-radius:14px;position:relative}
+  .cue .mouse::after{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);width:3px;height:7px;border-radius:99px;background:var(--paper);animation:wheel 1.6s var(--ease) infinite}
+  @media(max-width:760px){.dots{display:none}.cue{display:none}}
+
+  /* marquee strip — V1 (index.html) style: big hollow outline letters; sits between the stage & glass scene and slides on scroll */
+  .vmarq{position:relative;z-index:2;overflow:hidden;padding:clamp(26px,4vw,46px) 0;border-block:1px solid rgba(244,241,235,.14);background:#0b0a09}
+  .vmarq__track{display:flex;width:max-content;will-change:transform}
+  .vmarq__track span{font-family:'Sora';font-weight:800;font-size:clamp(2rem,5vw,4rem);letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;padding-right:.2em;color:transparent;-webkit-text-stroke:1.4px rgba(244,241,235,.4)}
+
+  /* =========================================================
+     FULL-SCREEN SCROLL-DRIVEN SCENES  (--pass: -1..0..1 ; --rev: 0..1 at centre)
+     ========================================================= */
+  .fs{position:relative;height:100svh;overflow:hidden;display:flex;align-items:center;background:#0b0a09;z-index:2}
+  .fs__bg{position:absolute;inset:0;z-index:0;will-change:transform}
+  /* parallax: bg slides opposite to scroll + constant overscan-scale */
+  .fs__bg video,.fs__bg img{width:100%;height:118%;object-fit:cover;transform:translateY(calc(var(--pass,0) * -7%)) scale(1.04)}
+  .fs__grade{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 80% at 50% 6%,rgba(11,10,9,.05),rgba(11,10,9,.55) 96%),linear-gradient(180deg,rgba(11,10,9,.45) 0%,transparent 24%,transparent 60%,rgba(11,10,9,.8) 100%)}
+  .fs__side{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .fs.right .fs__side{background:linear-gradient(270deg,rgba(11,10,9,.82) 0%,rgba(11,10,9,.3) 42%,transparent 70%)}
+  .fs.left  .fs__side{background:linear-gradient(90deg,rgba(11,10,9,.82) 0%,rgba(11,10,9,.3) 42%,transparent 70%)}
+  .fs__wrap{position:relative;z-index:3;width:100%;padding:0 clamp(22px,7vw,120px);display:flex}
+  .fs.right .fs__wrap{justify-content:flex-end;text-align:right}
+  .fs.center .fs__wrap{justify-content:center;text-align:center}
+  /* the inner text rides the scroll: slides through + fades at the edges */
+  .fs__inner{max-width:600px;opacity:var(--rev,0);will-change:transform,opacity}
+  .fs.right  .fs__inner{transform:translateX(calc((1 - var(--rev,0)) * 90px))}
+  .fs.left   .fs__inner{transform:translateX(calc((1 - var(--rev,0)) * -90px))}
+  .fs.center .fs__inner{max-width:1080px;margin:0 auto;transform:translateY(calc((1 - var(--rev,0)) * 60px))}
+  .fs.right .eyebrow{flex-direction:row-reverse}
+  .fs.right .eyebrow::before{background:linear-gradient(270deg,var(--red-bright),transparent)}
+  .fs.center .eyebrow{justify-content:center}
+  .fs.center .eyebrow::before{background:linear-gradient(270deg,var(--red-bright),transparent)}
+  .fs.center .lead{margin:18px auto 0;max-width:58ch}
+  .fs.right .lead{margin-left:auto}
+  .fs h2{font-family:'Sora';font-weight:800;letter-spacing:-.03em;line-height:1.0;font-size:clamp(2.6rem,6.4vw,5.2rem)}
+
+  /* ---- cyberpunk "Alles aus einer Hand" 3D stage ---- */
+  .stage3d{perspective:1500px;perspective-origin:50% 40%}
+  .env{position:absolute;inset:0;z-index:0;overflow:hidden}
+  .env__sky{position:absolute;inset:0;background:
+     radial-gradient(75% 50% at 50% 16%,rgba(224,88,74,.30),transparent 60%),
+     radial-gradient(46% 40% at 14% 30%,rgba(120,22,18,.55),transparent 62%),
+     radial-gradient(46% 40% at 86% 28%,rgba(120,22,18,.5),transparent 62%),
+     linear-gradient(180deg,#0a0708 0%,#070506 55%,#040303 100%)}
+  .env__bokeh{position:absolute;inset:0;opacity:.5;background-image:
+     radial-gradient(circle,rgba(255,120,92,.9) 0 2px,transparent 3px),
+     radial-gradient(circle,rgba(255,120,92,.7) 0 2px,transparent 3px),
+     radial-gradient(circle,rgba(224,88,74,.6) 0 3px,transparent 4px);
+     background-size:160px 160px,220px 220px,300px 300px;background-position:10% 30%,60% 18%,82% 40%;
+     mask-image:linear-gradient(180deg,#000 0%,transparent 62%)}
+  .env__floor{position:absolute;left:-30%;right:-30%;bottom:-8%;height:74%;
+     background-image:linear-gradient(rgba(224,88,74,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(224,88,74,.22) 1px,transparent 1px);
+     background-size:52px 52px;
+     transform:rotateX(76deg) translateY(calc(var(--pass,0)*30px));transform-origin:50% 100%;
+     mask-image:radial-gradient(62% 88% at 50% 0%,#000,transparent 74%)}
+  .env__glow{position:absolute;left:50%;top:40%;width:62vmin;height:62vmin;transform:translate(-50%,-50%);
+     background:radial-gradient(circle,rgba(224,88,74,.55),rgba(224,88,74,.12) 42%,transparent 64%);filter:blur(14px)}
+  /* the 3D ring of service panels */
+  .ring{position:absolute;left:50%;top:39%;width:0;height:0;z-index:1;transform-style:preserve-3d;
+     transform:translate(-50%,-50%) rotateX(10deg) rotateY(calc(var(--pass,0)*32deg + var(--spin,0deg)))}
+  .panel{position:absolute;width:33vmin;height:22vmin;left:-16.5vmin;top:-11vmin;
+     transform:rotateY(var(--a)) translateZ(50vmin);
+     border-radius:14px;overflow:hidden;border:1px solid rgba(224,88,74,.45);
+     box-shadow:0 0 46px rgba(224,88,74,.28),inset 0 0 0 1px rgba(255,255,255,.07);
+     background:#0d0a0a;backface-visibility:hidden}
+  .panel img{width:100%;height:100%;object-fit:cover;opacity:.92}
+  .panel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(224,88,74,.05),rgba(120,22,18,.4))}
+  .corelogo{position:absolute;left:50%;top:39%;z-index:1;transform:translate(-50%,-50%) scale(calc(.86 + var(--rev,0)*.18))}
+  .corelogo img{width:21vmin;height:auto;filter:drop-shadow(0 0 42px rgba(224,88,74,.85)) drop-shadow(0 0 12px rgba(255,180,150,.6))}
+  .scanline{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+     background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(224,88,74,.07) 3px 4px)}
+  /* legibility scrim under the headline (above ring, below text) */
+  .stagescrim{position:absolute;inset:0;z-index:2;pointer-events:none;background:
+     radial-gradient(64% 40% at 50% 44%,rgba(9,6,6,.66),transparent 74%),
+     linear-gradient(180deg,transparent 52%,rgba(11,8,8,.5) 100%)}
+
+  /* grid cards (frosted, rise on reveal) */
+  .fscards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:34px auto 0;max-width:1060px}
+  .fscard{position:relative;padding:22px 20px;border-radius:18px;background:rgba(16,11,11,.82);border:1px solid rgba(224,88,74,.22);text-align:left;
+     box-shadow:0 24px 60px -30px rgba(0,0,0,.85);transform-style:preserve-3d;
+     opacity:calc(.25 + var(--rev,0)*.75);transform:translateY(calc((1 - var(--rev,0))*34px))}
+  .fscard:hover{border-color:rgba(224,88,74,.55)}
+  .fscard .no{font-family:'Sora';font-weight:700;color:var(--red-bright);font-size:.9rem}
+  .fscard h3{font-family:'Sora';font-weight:800;font-size:1.26rem;color:#fff;margin:8px 0 8px;line-height:1.1}
+  .fscard p{color:rgba(244,241,235,.72);font-size:.93rem}
+  @media(max-width:920px){.fscards{grid-template-columns:1fr 1fr}.panel{width:38vmin;height:24vmin;left:-19vmin;top:-12vmin}}
+  @media(max-width:600px){
+    .fscards{grid-template-columns:1fr;gap:10px}
+    .fs.stage3d{height:auto;min-height:100svh;padding:104px 0 80px}
+    .fs.stage3d .env{height:100svh;bottom:auto}                 /* keep the neon stage framed to one screen */
+    .ring{display:none}
+    .corelogo{top:120px;transform:translate(-50%,0) scale(1)}   /* sits under the headline, not down the card list */
+    /* the mobile stage is taller than the viewport → don't bind opacity/transform to its single --rev */
+    .fs.stage3d .fs__inner,.fs.stage3d .fscard{opacity:1!important;transform:none!important}
+    /* on narrow phones swap the 90px horizontal slide for a small vertical one so text never clips off the edge */
+    .fs.left .fs__inner,.fs.right .fs__inner{transform:translateY(calc((1 - var(--rev,0)) * 22px))!important}
+  }
+
+  /* ---------- V5 sticky-stacking services ---------- */
+  .stack{position:relative;z-index:2;background:#0b0a09;padding:96px clamp(20px,5vw,80px) 70px}
+  .stack__head{max-width:1100px;margin:0 auto 44px;text-align:center}
+  .stack__head .eyebrow{justify-content:center}
+  .stack__head .eyebrow::before{display:none}
+  .stack__head h2{font-size:clamp(2.2rem,5vw,4rem)}
+  .cards{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:34px}
+  .card{position:sticky;top:calc(86px + var(--i)*20px);display:grid;grid-template-columns:1.05fr .95fr;min-height:330px;border-radius:26px;overflow:hidden;border:1px solid rgba(244,241,235,.12);background:#141110;box-shadow:0 34px 80px -40px rgba(0,0,0,.85)}
+  .card__media{position:relative;overflow:hidden}
+  .card__media img,.card__media video{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+  .card:hover .card__media img,.card:hover .card__media video{transform:scale(1.05)}
+  .card__txt{padding:clamp(26px,3vw,48px);display:flex;flex-direction:column;justify-content:center}
+  .card__txt .no{font-family:'Sora';font-weight:700;color:var(--red-bright);font-size:.95rem}
+  .card__txt h3{font-family:'Sora';font-weight:800;font-size:clamp(1.6rem,2.6vw,2.4rem);margin:8px 0 12px;color:#fff;line-height:1.05}
+  .card__txt p{color:rgba(244,241,235,.72);max-width:42ch}
+  @media(max-width:760px){.card{grid-template-columns:1fr;position:relative;top:auto!important}.card__media{aspect-ratio:16/10}}
+
+  /* ---------- Contact (full-screen, V1-style — bright footage, NO dark filter) ---------- */
+  .kontakt{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:120px clamp(20px,5vw,80px) 56px;border-top:1px solid rgba(244,241,235,.07);overflow:hidden}
+  .kontakt__bg{position:absolute;inset:0;z-index:0}
+  .kontakt__bg video{width:100%;height:100%;object-fit:cover;transform:scale(1.06)}
+  .kontakt__in,.kontakt .legal{position:relative;z-index:2}
+  .kontakt__in{max-width:1080px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,70px);align-items:center}
+  .kontakt h2{font-size:clamp(2.2rem,5vw,3.8rem);text-shadow:0 1px 2px rgba(0,0,0,.9),0 2px 10px rgba(0,0,0,.7),0 14px 48px rgba(0,0,0,.5)}
+  .kontakt .lead{color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.95),0 2px 12px rgba(0,0,0,.75)}
+  .kontakt .eyebrow{text-shadow:0 1px 3px rgba(0,0,0,.8)}
+  .kontakt .legal{margin-top:auto;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.85);border-top-color:rgba(255,255,255,.2)}
+  .legal a{color:#fff;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}.legal a:hover{color:var(--red-bright)}
+  .contact-card{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+  .rowline{display:flex;align-items:center;gap:13px;padding:14px 18px;border-radius:14px;background:rgba(20,16,15,.55);border:1px solid rgba(244,241,235,.12);transition:transform .4s var(--ease);transform-style:preserve-3d}
+  .rowline svg{width:20px;height:20px;color:var(--red-bright);flex:none}
+  .rowline a,.rowline span{color:#fff;text-decoration:none;font-weight:500;font-size:.96rem;word-break:break-word}
+  .rowline a:hover{color:var(--red-bright)}
+  .rowline small{display:block;color:rgba(244,241,235,.6);font-size:.76rem;letter-spacing:.04em}
+  .legal{max-width:1080px;margin:46px auto 0;text-align:center;font-size:12.5px;color:rgba(244,241,235,.5);border-top:1px solid rgba(244,241,235,.07);padding-top:26px}
+  @media(max-width:840px){.kontakt__in{grid-template-columns:1fr;gap:30px}.contact-card{grid-template-columns:1fr}}
+
+  .vtoggle{position:fixed;left:18px;bottom:58px;z-index:45;font-family:'Sora';font-weight:700;font-size:.78rem;color:#fff;background:rgba(20,16,15,.5);border:1px solid rgba(244,241,235,.14);border-radius:99px;padding:8px 15px;text-decoration:none;display:inline-flex;gap:8px;align-items:center;opacity:.6;transition:opacity .3s,transform .3s var(--ease)}
+  .vtoggle:hover{opacity:1;transform:translateY(-2px)}.vtoggle i{width:6px;height:6px;border-radius:99px;background:var(--red-bright)}
+  @media(max-width:760px){.vtoggle{display:none}}
+  @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.05ms!important}.fs__inner{opacity:1!important;transform:none!important}.panel{animation:none}}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <video class="introvid" id="introvid" muted playsinline autoplay loop preload="auto"><source src="assets/video/scene/intro.mp4" type="video/mp4" /></video>
+  <div class="lscrim"></div>
+  <div class="lui">
+    <div class="bar"><i id="loadbar"></i></div>
+    <div class="lmsg">Sauberkeit lädt…</div>
+    <div class="go"><div class="mouse"></div><div class="ms">Scrollen zum Starten</div></div>
+  </div>
+</div>
+
+<div class="progress" id="progress"></div>
+
+<header id="header">
+  <a class="brand" href="#top" aria-label="EM Dienstleistung"><img src="assets/logo/em-logo.png" alt="" /><b>EM <span>Dienstleistung</span></b></a>
+  <nav class="nav" aria-label="Hauptnavigation">
+    <span class="links"><a href="#leistungen">Leistungen</a><a href="#eis">Trockeneis</a><a href="#kontakt">Kontakt</a></span>
+    <a class="cta" href="#kontakt">Jetzt anfragen
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </nav>
+</header>
+
+<div class="dots" id="dots" aria-hidden="true"></div>
+
+<main id="top" class="scroll-root">
+  <div class="stage">
+    <div class="film"><video id="film" muted playsinline preload="auto" poster="assets/img/landing-poster.jpg"></video></div>
+    <div class="grade"></div>
+    <div class="sidescrim"></div>
+    <div class="scenes" id="scenes">
+
+      <section class="scene scene--hero left" data-start="0" data-end="0.15" data-side="left">
+        <div class="inner">
+          <div class="hero-lockup"><img src="assets/logo/em-logo.png" alt="EM Dienstleistung Logo" /><span class="word">EM <em>Dienstleistung</em></span></div>
+          <h1>Sauberkeit, die<br><span class="rot" id="rot"></span></h1>
+          <p class="lead">Ihr zuverlässiger Partner für professionelle Reinigung in Ingolstadt und Umgebung — gründlich, termintreu und mit einem Auge fürs Detail.</p>
+          <div class="hero-actions">
+            <a class="cta" href="#kontakt">Jetzt anfragen
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="cta ghost" href="#leistungen">Unsere Leistungen</a>
+          </div>
+          <div class="trust"><span><b>★ 4,9</b> Bewertung</span><span><b>50+</b> Mitarbeiter</span><span><b>20</b> Jahre Erfahrung</span></div>
+        </div>
+      </section>
+
+      <section class="scene right" data-start="0.19" data-end="0.35" data-side="right">
+        <div class="inner">
+          <span class="eyebrow">Leistung 01 · Büro &amp; Gewerbe</span>
+          <h2>Saubere Räume für<br><em>starke Auftritte.</em></h2>
+          <p class="lead">Büros, Geschäftsräume und Gewerbeflächen — diskret, termintreu und zuverlässig gereinigt, Tag für Tag.</p>
+          <div class="chips"><span class="chip" data-tilt><span class="dot"></span>Unterhaltsreinigung</span><span class="chip" data-tilt><span class="dot"></span>Bauendreinigung</span><span class="chip" data-tilt><span class="dot"></span>Diskret &amp; termintreu</span></div>
+        </div>
+      </section>
+
+      <section class="scene left" data-start="0.40" data-end="0.53" data-side="left">
+        <div class="inner">
+          <span class="eyebrow">Leistung 02 · Fenster- &amp; Glasreinigung</span>
+          <h2>Streifenfreie <em>Klarheit.</em></h2>
+          <p class="lead">Kristallklare Fenster, Glasfassaden und Trennwände — innen wie außen, in jeder Höhe sicher und makellos.</p>
+          <div class="chips"><span class="chip" data-tilt><span class="dot"></span>Glasfassaden</span><span class="chip" data-tilt><span class="dot"></span>Innen &amp; außen</span><span class="chip" data-tilt><span class="dot"></span>Höhenarbeit · versichert</span></div>
+        </div>
+      </section>
+
+      <section class="scene right" data-start="0.57" data-end="0.67" data-side="right">
+        <div class="inner">
+          <span class="eyebrow">Leistung 03 · Praxisreinigung</span>
+          <h2>Hygiene, der man<br><em>vertraut.</em></h2>
+          <p class="lead">Zertifizierte, gründliche Reinigung für Praxen, Labore und sensible Bereiche — hygienisch einwandfrei.</p>
+          <div class="chips"><span class="chip" data-tilt><span class="dot"></span>Zertifizierte Hygiene</span><span class="chip" data-tilt><span class="dot"></span>Trockeneisreinigung</span><span class="chip" data-tilt><span class="dot"></span>Flächendesinfektion</span></div>
+        </div>
+      </section>
+
+      <section class="scene left" data-start="0.71" data-end="0.83" data-side="left">
+        <div class="inner">
+          <span class="eyebrow">Leistung 04 · Küche &amp; Sozialräume</span>
+          <h2>Gründlich bis ins<br><em>Detail.</em></h2>
+          <p class="lead">Küchen, Teeküchen und Sozialräume — hygienisch rein bis in jede Ecke, für ein gutes Gefühl im Team.</p>
+          <div class="chips"><span class="chip" data-tilt><span class="dot"></span>Fettlösung</span><span class="chip" data-tilt><span class="dot"></span>Oberflächen &amp; Geräte</span><span class="chip" data-tilt><span class="dot"></span>Tiefenhygiene</span></div>
+        </div>
+      </section>
+
+      <section class="scene right" data-start="0.87" data-end="1.001" data-side="right" id="warum">
+        <div class="inner">
+          <span class="eyebrow">Leistung 05 · Wohnungsreinigung · Warum wir</span>
+          <h2>Ein Zuhause zum<br><em>Aufatmen.</em></h2>
+          <div class="badges">
+            <div class="badge" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="#e0584a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span><b>Zuverlässig &amp; gründlich</b><small>Bis ins letzte Detail</small></span></div>
+            <div class="badge" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="#e0584a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Flexibel &amp; pünktlich</b><small>Termine, die passen</small></span></div>
+            <div class="badge" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="#e0584a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span><b>Faire-Preis-Garantie</b><small>Transparent &amp; ehrlich</small></span></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<!-- ===== Cyberpunk 3D stage · Alles aus einer Hand ===== -->
+<section class="fs stage3d center" id="leistungen">
+  <div class="env">
+    <div class="env__sky"></div>
+    <div class="env__bokeh"></div>
+    <div class="env__glow"></div>
+    <div class="env__floor"></div>
+  </div>
+  <div class="ring" id="ring3d">
+    <div class="panel" style="--a:-72deg;--d:0s"><img src="assets/img/poster/s2-clinic.jpg" alt="" /></div>
+    <div class="panel" style="--a:-43deg;--d:.5s"><img src="assets/img/poster/s3-dryice.jpg" alt="" /></div>
+    <div class="panel" style="--a:-14deg;--d:1s"><img src="assets/img/poster/s4-glass.jpg" alt="" /></div>
+    <div class="panel" style="--a:14deg;--d:1.5s"><img src="assets/img/poster/s5-office.jpg" alt="" /></div>
+    <div class="panel" style="--a:43deg;--d:2s"><img src="assets/img/frames/f5.jpg" alt="" /></div>
+    <div class="panel" style="--a:72deg;--d:2.5s"><img src="assets/img/poster/s6-living.jpg" alt="" /></div>
+  </div>
+  <div class="corelogo"><img src="assets/logo/em-logo.png" alt="" /></div>
+  <div class="scanline"></div>
+  <div class="stagescrim"></div>
+  <div class="fs__wrap"><div class="fs__inner">
+    <span class="eyebrow">Unsere Leistungen</span>
+    <h2>Alles aus <em>einer Hand.</em></h2>
+    <p class="lead">Von der sensiblen Praxis bis zur Baustelle — wir reinigen, was Ihnen wichtig ist. Professionell, zuverlässig und zu fairen Preisen.</p>
+    <div class="fscards">
+      <div class="fscard"><div class="no">01</div><h3>Praxisreinigung</h3><p>Hygienisch &amp; zertifiziert für Praxen, Labore &amp; sensible Bereiche.</p></div>
+      <div class="fscard"><div class="no">02</div><h3>Trockeneisreinigung</h3><p>Schonend &amp; rückstandsfrei — ohne Chemie, auf Industrieniveau.</p></div>
+      <div class="fscard"><div class="no">03</div><h3>Fenster- &amp; Glasreinigung</h3><p>Streifenfreie Klarheit — innen wie außen, in jeder Höhe.</p></div>
+      <div class="fscard"><div class="no">04</div><h3>Büro- &amp; Geschäftsräume</h3><p>Saubere Räume für einen starken, produktiven Auftritt.</p></div>
+      <div class="fscard"><div class="no">05</div><h3>Bauendreinigung</h3><p>Besenrein bis ins Detail — bezugsfertig nach dem Bau.</p></div>
+      <div class="fscard"><div class="no">06</div><h3>Wohnungs- &amp; Hausreinigung</h3><p>Ein gepflegtes Zuhause zum Aufatmen — mit Liebe zum Detail.</p></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ===== Marquee strip (V1 style, scroll-linked) — between "Alles aus einer Hand" and "Klarheit" ===== -->
+<section class="vmarq" id="vmarq" aria-hidden="true">
+  <div class="vmarq__track" id="vmarqtrack">
+    <span>Vertrauen&nbsp;✦&nbsp;Präzision&nbsp;✦&nbsp;Zuverlässigkeit&nbsp;✦&nbsp;Sauberkeit&nbsp;✦&nbsp;Qualität&nbsp;✦&nbsp;</span>
+    <span>Vertrauen&nbsp;✦&nbsp;Präzision&nbsp;✦&nbsp;Zuverlässigkeit&nbsp;✦&nbsp;Sauberkeit&nbsp;✦&nbsp;Qualität&nbsp;✦&nbsp;</span>
+  </div>
+</section>
+
+<!-- ===== Scroll-driven scene · Industrieniveau (Trockeneis) — text LEFT, footage right ===== -->
+<section class="fs left" id="eis">
+  <div class="fs__bg"><video class="fsv" data-src="assets/video/scene/s3.mp4" poster="assets/img/poster/s3-dryice.jpg" muted loop playsinline preload="none"></video></div>
+  <div class="fs__grade"></div><div class="fs__side"></div>
+  <div class="fs__wrap"><div class="fs__inner">
+    <span class="eyebrow">Trockeneisreinigung</span>
+    <h2>Reinigung auf<br><em>Industrieniveau.</em></h2>
+    <p class="lead">Schonend, rückstandsfrei und ganz ohne Chemie — selbst dort, wo herkömmliche Methoden an ihre Grenzen stoßen.</p>
+  </div></div>
+</section>
+
+<!-- ===== V5 sticky-stacking services ===== -->
+<section class="stack" id="alles">
+  <div class="stack__head">
+    <span class="eyebrow">Jede Leistung im Bild</span>
+    <h2>Sehen Sie <em style="font-style:normal;color:var(--red-bright)">selbst.</em></h2>
+  </div>
+  <div class="cards">
+    <article class="card" style="--i:0"><div class="card__media"><video class="cardvid" data-src="assets/video/scene/s2.mp4" poster="assets/img/poster/s2-clinic.jpg" muted loop playsinline preload="none"></video></div><div class="card__txt"><span class="no">01</span><h3>Praxisreinigung</h3><p>Hygienisch &amp; zertifiziert für Praxen, Labore und sensible Bereiche.</p></div></article>
+    <article class="card" style="--i:1"><div class="card__media"><video class="cardvid" data-src="assets/video/raw/s3.mp4" poster="assets/img/poster/raw-s3.jpg" muted loop playsinline preload="none"></video></div><div class="card__txt"><span class="no">02</span><h3>Trockeneisreinigung</h3><p>Schonend, rückstandsfrei und ganz ohne Chemie — auf Industrieniveau.</p></div></article>
+    <article class="card" style="--i:2"><div class="card__media"><video class="cardvid" data-src="assets/video/scene/s4.mp4" poster="assets/img/poster/s4-glass.jpg" muted loop playsinline preload="none"></video></div><div class="card__txt"><span class="no">03</span><h3>Fenster- &amp; Glasreinigung</h3><p>Streifenfreie Klarheit — innen wie außen, in jeder Höhe.</p></div></article>
+    <article class="card" style="--i:3"><div class="card__media"><video class="cardvid" data-src="assets/video/scene/s5.mp4" poster="assets/img/poster/s5-office.jpg" muted loop playsinline preload="none"></video></div><div class="card__txt"><span class="no">04</span><h3>Büro, Gewerbe &amp; Bau</h3><p>Saubere Räume für starke Auftritte — und besenrein nach dem Bau.</p></div></article>
+    <article class="card" style="--i:4"><div class="card__media"><video class="cardvid" data-src="assets/video/scene/s6.mp4" poster="assets/img/poster/s6-living.jpg" muted loop playsinline preload="none"></video></div><div class="card__txt"><span class="no">05</span><h3>Wohnungs- &amp; Hausreinigung</h3><p>Ein Zuhause zum Aufatmen — mit Liebe zum Detail, besenrein bis glänzend.</p></div></article>
+  </div>
+</section>
+
+<!-- ===== Contact ===== -->
+<section class="kontakt" id="kontakt">
+  <div class="kontakt__bg"><video class="fsv" data-src="assets/video/raw/s7.mp4" poster="assets/img/poster/raw-s7.jpg" muted loop playsinline preload="none"></video></div>
+  <div class="kontakt__in">
+    <div>
+      <span class="eyebrow">Kontakt</span>
+      <h2>Jetzt unverbindlich <em>anfragen.</em></h2>
+      <p class="lead">Sauberkeit, auf die Sie sich verlassen können — zum garantiert fairen Preis. Wir melden uns innerhalb von 24 Stunden.</p>
+      <div class="hero-actions"><a class="cta" href="mailto:em_dienstleistungen@web.de?subject=Kostenloses%20Angebot">Kostenloses Angebot
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    </div>
+    <div class="contact-card">
+      <div class="rowline" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg><span><a href="tel:+491736519200">+49 173 6519200</a><small>Hakan Mese · Inhaber</small></span></div>
+      <div class="rowline" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg><span><a href="tel:+4917620566632">+49 176 20566632</a><small>Gülseran Mese · Sachbearbeiterin</small></span></div>
+      <div class="rowline" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6 12 13 2 6"/></svg><span><a href="mailto:em_dienstleistungen@web.de">em_dienstleistungen@web.de</a><small>E-Mail</small></span></div>
+      <div class="rowline" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><span>Brucknerstr. 4, 85057 Ingolstadt</span><small>Adresse</small></span></div>
+    </div>
+  </div>
+  <div class="legal">© <span id="yr"></span> EM Dienstleistung · Ingolstadt · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></div>
+</section>
+
+<div class="cue" id="cue"><span>Scrollen</span><span class="mouse"></span></div>
+<a class="vtoggle" href="hub.html"><i></i> Alle Versionen</a>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  var FILM_DURATION = 46.08;
+  var FILM_END = 45.0;   /* the film fades to black after ~45.5s — hold the last bright frame so the end scene never goes dark */
+  var video    = document.getElementById('film');
+  var root     = document.querySelector('.scroll-root');
+  var scenes   = Array.prototype.slice.call(document.querySelectorAll('.scenes .scene'));
+  var progress = document.getElementById('progress');
+  var header   = document.getElementById('header');
+  var cue      = document.getElementById('cue');
+  var dotsWrap = document.getElementById('dots');
+  var vmarq    = document.getElementById('vmarq');
+  var vtrack   = document.getElementById('vmarqtrack');
+  var loader   = document.getElementById('loader');
+  var loadbar  = document.getElementById('loadbar');
+  var reduce   = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var SCRUB    = matchMedia('(min-width:768px) and (pointer:fine)').matches && !reduce;
+
+  video.src = SCRUB ? 'assets/video/landing.mp4' : 'assets/video/landing_mobile.mp4';
+
+  /* marquee slides on scroll (V1 scrub behaviour, vanilla): translateX 0 → -50% as the strip passes through */
+  function updateMarquee(){
+    if(!vmarq||!vtrack) return;
+    var r=vmarq.getBoundingClientRect(), vh=window.innerHeight;
+    var prog=(vh - r.top)/(vh + r.height);
+    prog=Math.max(0,Math.min(1,prog));
+    vtrack.style.transform='translateX('+(-50*prog).toFixed(2)+'%)';
+  }
+
+  (function(){
+    var rot=document.getElementById('rot');
+    var words=['überzeugt.','begeistert.','glänzt.','strahlt.'];
+    var a=document.createElement('span'), b=document.createElement('span');
+    a.textContent=words[0]; a.className='in'; b.className=''; rot.appendChild(a); rot.appendChild(b);
+    var i=0, showA=true;
+    function flip(){ i=(i+1)%words.length; var inc=showA?b:a,out=showA?a:b; inc.textContent=words[i]; inc.className=''; void inc.offsetWidth; inc.className='in'; out.className='out'; showA=!showA; }
+    if(!reduce) setInterval(flip, 2600);
+  })();
+
+  scenes.forEach(function(s,i){
+    var b=document.createElement('button');b.setAttribute('aria-label','Abschnitt '+(i+1));
+    b.addEventListener('click',function(){var max=root.offsetHeight-window.innerHeight;var mid=(parseFloat(s.dataset.start)+Math.min(1,parseFloat(s.dataset.end)))/2;window.scrollTo({top:max*mid,behavior:'smooth'});});
+    dotsWrap.appendChild(b);
+  });
+  var dotBtns=Array.prototype.slice.call(dotsWrap.children);
+
+  /* ---------- loader ---------- */
+  var ready=false, dismissed=false;
+  function setReady(){ if(ready)return; ready=true; loadbar.style.width='100%'; loader.classList.add('ready'); }
+  function dismiss(){ if(dismissed||!ready)return; dismissed=true; loader.classList.add('hide'); var iv=document.getElementById('introvid'); if(iv){setTimeout(function(){try{iv.pause();}catch(e){}},1100);} }
+  function prog(){ try{ if(video.duration){ var bf=video.buffered.length?video.buffered.end(video.buffered.length-1):0; loadbar.style.width=Math.min(100,(bf/video.duration)*100)+'%'; if(bf/video.duration>0.3||video.readyState>=4) setReady(); } }catch(e){} }
+  video.addEventListener('loadeddata',function(){ if(SCRUB){video.pause();} else {video.loop=true;video.play().catch(function(){});} });
+  video.addEventListener('progress',prog);
+  video.addEventListener('canplaythrough',setReady);
+  video.addEventListener('error',setReady);
+  setInterval(prog,300);
+  setTimeout(setReady,9000);
+
+  /* ---------- film scrub + scenes ---------- */
+  var targetTime=0,curTime=0,rafActive=false;
+  function filmMax(){return root.offsetHeight-window.innerHeight;}
+  function getProgress(){return Math.min(1,Math.max(0,window.scrollY/filmMax()));}
+  function updateScenes(p){
+    var active=-1;
+    scenes.forEach(function(s,i){var a=parseFloat(s.dataset.start),b=parseFloat(s.dataset.end);var on=p>=a-0.001&&p<b;s.classList.toggle('active',on);if(on)active=i;});
+    progress.style.width=(p*100).toFixed(2)+'%';
+    var idx=0;scenes.forEach(function(s,i){if(p>=parseFloat(s.dataset.start)-0.001)idx=i;});
+    dotBtns.forEach(function(b,i){b.classList.toggle('on',i===idx);});
+    cue.style.opacity = (p>0.04||!dismissed)?0:1;
+    header.classList.toggle('solid',window.scrollY>40);
+    if(active>=0) document.body.dataset.side=scenes[active].dataset.side||'';
+    var pastFilm = window.scrollY > filmMax()-window.innerHeight*0.4;
+    dotsWrap.style.opacity = pastFilm?'0':'1';
+    dotsWrap.style.pointerEvents = pastFilm?'none':'auto';
+  }
+
+  /* stacking-card videos: play only in view */
+  var cardvids=Array.prototype.slice.call(document.querySelectorAll('.cardvid'));
+  function updateCardVids(){
+    cardvids.forEach(function(v){
+      var r=v.getBoundingClientRect();
+      var inView = r.bottom>window.innerHeight*0.22 && r.top<window.innerHeight*0.78;
+      if(inView){ if(v.dataset.src&&!v.getAttribute('src')){v.setAttribute('src',v.dataset.src);} var p=v.play(); if(p&&p.catch)p.catch(function(){}); }
+      else { try{v.pause();}catch(e){} }
+    });
+  }
+
+  /* ---------- SCROLL-DRIVEN full-screen scenes (--pass / --rev) ---------- */
+  var fsSecs=Array.prototype.slice.call(document.querySelectorAll('.fs'));
+  var fsVids=Array.prototype.slice.call(document.querySelectorAll('.fsv'));
+  function updateFs(){
+    var vh=window.innerHeight;
+    /* read ALL geometry first, then write — avoids per-element layout thrash */
+    var secData=fsSecs.map(function(s){var r=s.getBoundingClientRect();return [s,r.top,r.height];});
+    var vidData=fsVids.map(function(v){var r=v.getBoundingClientRect();return [v,r.top,r.bottom];});
+    secData.forEach(function(d){
+      var center=d[1] + d[2]/2;
+      /* pass: -1 (entering from below) → 0 (centred) → 1 (leaving at top) */
+      var pass=Math.max(-1.3,Math.min(1.3,(center - vh/2) / (vh/2 + d[2]/2)));
+      /* rev: 1 when centred, → 0 at the edges (for fade/rise) */
+      var rev=1 - Math.min(1, Math.abs(pass)*1.18);
+      d[0].style.setProperty('--pass', pass.toFixed(4));
+      d[0].style.setProperty('--rev', rev.toFixed(4));
+    });
+    vidData.forEach(function(d){
+      var vis=d[2]>vh*0.04 && d[1]<vh*0.96;
+      if(vis){ if(d[0].dataset.src&&!d[0].getAttribute('src'))d[0].setAttribute('src',d[0].dataset.src); var p=d[0].play(); if(p&&p.catch)p.catch(function(){}); }
+      else { try{d[0].pause();}catch(e){} }
+    });
+  }
+
+  /* coalesce all per-scroll layout work into ONE rAF frame (no forced reflow per scroll event) */
+  var framePending=false;
+  function onScroll(){
+    if(ready && !dismissed && window.scrollY>2) dismiss();
+    if(!framePending){ framePending=true; requestAnimationFrame(scrollFrame); }
+  }
+  function scrollFrame(){
+    framePending=false;
+    var p=getProgress();
+    targetTime=p*FILM_DURATION;
+    updateScenes(p);
+    updateCardVids();
+    updateFs();
+    updateMarquee();
+    if(SCRUB&&!rafActive){rafActive=true;requestAnimationFrame(tick);}
+  }
+  function tick(){
+    curTime+=(targetTime-curTime)*0.14;
+    if(Math.abs(targetTime-curTime)<0.004){curTime=targetTime;rafActive=false;}
+    if(video.readyState>=2&&isFinite(video.duration)){var t=Math.min(FILM_END,Math.min(video.duration-0.05,Math.max(0,curTime)));if(Math.abs(video.currentTime-t)>0.012){try{video.currentTime=t;}catch(e){}}}
+    if(rafActive)requestAnimationFrame(tick);
+  }
+  loader.querySelector('.go').addEventListener('click',function(){ if(ready){ dismiss(); window.scrollTo({top:Math.round(filmMax()*0.02),behavior:'smooth'}); } });
+
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  window.addEventListener('load',function(){updateScenes(getProgress());updateFs();updateMarquee();});
+  updateScenes(0);updateFs();updateMarquee();
+
+  /* 3D tilt */
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
+    document.querySelectorAll('[data-tilt]').forEach(function(el){
+      el.addEventListener('mousemove',function(e){var r=el.getBoundingClientRect();var rx=-((e.clientY-r.top)/r.height-0.5)*9;var ry=((e.clientX-r.left)/r.width-0.5)*9;el.style.transform='perspective(680px) rotateX('+rx+'deg) rotateY('+ry+'deg)';});
+      el.addEventListener('mouseleave',function(){el.style.transform='';});
+    });
+  }
+</script>
+</body>
+</html>
