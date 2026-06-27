@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EM Dienstleistung — Versionen</title>
+<link rel="icon" href="assets/logo/logo-mark.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{--red:#C0392B;--red-soft:#e0584a;--ink:#08080a;--cream:#F4F1EB;--muted:rgba(244,241,235,.6);--line:rgba(244,241,235,.12);--fd:"Outfit",sans-serif;--fb:"Inter",sans-serif;--e:cubic-bezier(.16,1,.3,1)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--fb);background:var(--ink);color:var(--cream);min-height:100vh;overflow-x:hidden;
+  background-image:radial-gradient(60% 50% at 20% -5%,rgba(192,57,43,.22),transparent 60%),radial-gradient(50% 45% at 90% 10%,rgba(224,118,58,.16),transparent 60%)}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:70px clamp(20px,5vw,60px) 90px}
+.head{text-align:center;margin-bottom:54px}
+.head img{width:54px;margin:0 auto 22px;filter:drop-shadow(0 6px 20px rgba(192,57,43,.5))}
+.head .eb{font-family:var(--fd);font-weight:600;font-size:.8rem;letter-spacing:.24em;text-transform:uppercase;color:var(--red-soft)}
+.head h1{font-family:var(--fd);font-weight:800;font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.05;letter-spacing:-.02em;color:#fff;margin:14px 0 12px}
+.head p{color:var(--muted);max-width:54ch;margin:0 auto;font-size:1.05rem}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.vc{position:relative;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.04);backdrop-filter:blur(12px);
+  display:flex;flex-direction:column;min-height:330px;transition:transform .5s var(--e),box-shadow .5s var(--e),border-color .5s}
+.vc:hover{transform:translateY(-8px);box-shadow:0 40px 80px -34px rgba(0,0,0,.8);border-color:rgba(224,88,74,.5)}
+.vc__media{position:relative;height:200px;overflow:hidden}
+.vc__media img{width:100%;height:100%;object-fit:cover;opacity:.62;transition:opacity .5s var(--e),transform .6s var(--e)}
+.vc:hover .vc__media img{opacity:.85;transform:scale(1.05)}
+.vc__media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(8,8,10,.9))}
+.vc__tag{position:absolute;top:14px;left:14px;z-index:2;font-family:var(--fd);font-weight:700;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(192,57,43,.85);padding:6px 13px;border-radius:100px}
+.vc__body{padding:22px 24px 26px;position:relative;z-index:2;margin-top:-44px;flex:1;display:flex;flex-direction:column}
+.vc__body h2{font-family:var(--fd);font-weight:700;font-size:1.5rem;color:#fff}
+.vc__body p{color:var(--muted);font-size:.95rem;margin:9px 0 18px;flex:1}
+.vc__go{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;font-family:var(--fd);font-weight:600;font-size:.92rem;color:#fff;background:rgba(255,255,255,.08);border:1px solid var(--line);padding:10px 20px;border-radius:100px;transition:background .3s,gap .3s var(--e)}
+.vc:hover .vc__go{background:var(--red);gap:12px}
+.foot{text-align:center;margin-top:50px;color:rgba(244,241,235,.4);font-size:.85rem}
+@media (max-width:720px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <img src="assets/logo/em-logo.png" alt="EM" />
+    <p class="eb">EM Dienstleistung · Konzepte</p>
+    <h1>Wege zu höchster Sauberkeit.</h1>
+    <p>Wählen Sie eine Version — jede erzählt dieselbe Geschichte mit einem eigenen Charakter und eigenen Animationen.</p>
+  </header>
+
+  <div class="grid">
+    <a class="vc" href="pro4.html" style="grid-column:1/-1">
+      <div class="vc__media" style="height:240px"><img src="assets/img/landing-poster.jpg" alt="" /><span class="vc__tag">★ Pro 4 · Empfohlen</span></div>
+      <div class="vc__body"><h2>Komplett · Film + 3D-Szenen</h2><p>Alles vereint: Logo-Reveal-Intro → Lerp-Scrub-Film durch alle Räume → die scroll-gesteuerte 3D-Bühne „Alles aus einer Hand" (rotierende Panel-Galerie ums leuchtende Logo) → scroll-animierte Szenen „Klarheit, die man sieht" & „Reinigung auf Industrieniveau" (Parallax) → V5 Sticky-Stacking → Kontakt. Mit Lauftext-Band & rotierender Headline.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+    <a class="vc" href="pro3.html">
+      <div class="vc__media"><img src="assets/img/poster/s4-glass.jpg" alt="" /><span class="vc__tag">Pro 3</span></div>
+      <div class="vc__body"><h2>Vollbild-Szenen</h2><p>Logo-Intro → große Vollbild-Szenen pur (Alles aus einer Hand, Klarheit, Industrieniveau), Kontakt unten.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+    <a class="vc" href="pro2.html">
+      <div class="vc__media"><img src="assets/img/landing-poster.jpg" alt="" /><span class="vc__tag">Pro 2</span></div>
+      <div class="vc__body"><h2>Kino · Lerp-Scrub-Film</h2><p>Durchgehender Film-Scrub durch alle Räume, V5 Sticky-Stacking, Logo-Intro.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+    <a class="vc" href="pro.html">
+      <div class="vc__media"><img src="assets/img/poster/s4-glass.jpg" alt="" /><span class="vc__tag">Pro 1</span></div>
+      <div class="vc__body"><h2>Kino · erste Fassung</h2><p>Die erste Film-Fassung mit Schwamm-Cursor und Kontakt-Szene im Film.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+    <a class="vc" href="magic/index.html">
+      <div class="vc__media"><img src="assets/img/poster/s2-clinic.jpg" alt="" /><span class="vc__tag">V6 · Magic / React</span></div>
+      <div class="vc__body"><h2>Magic Studio</h2><p>Mit React, Tailwind &amp; framer-motion gebaut — animierte Aurora-Shapes (21st.dev), Bento-Leistungen, zählende Statistiken und Kundenstimmen-Marquee.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+    <a class="vc" href="magic/light.html">
+      <div class="vc__media"><img src="assets/img/poster/s6-living.jpg" alt="" /><span class="vc__tag">V7 · Magic Light</span></div>
+      <div class="vc__body"><h2>Magic Light</h2><p>Die helle, luftige React-Variante — sanfte Brand-Shapes, Pakete, Kundenstimmen und ein animiertes FAQ. Frisch &amp; vertrauensvoll.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+    <a class="vc" href="magic/spotlight.html">
+      <div class="vc__media"><img src="assets/img/poster/s5-office.jpg" alt="" /><span class="vc__tag">V8 · Magic Spotlight</span></div>
+      <div class="vc__body"><h2>Magic Spotlight</h2><p>Kinoreif: animierte Lichtstrahlen auf Canvas, rotierende Headline, Pakete &amp; FAQ. Die spektakulärste React-Variante.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+    <a class="vc" href="index3.html">
+      <div class="vc__media"><img src="assets/img/poster/s4-glass.jpg" alt="" /><span class="vc__tag">V3 · Empfohlen</span></div>
+      <div class="vc__body"><h2>Aurora Studio</h2><p>Dunkel & premium: Aurora-Mesh, Glasoberflächen, Bento-Grid, magnetischer Cursor, 3D-Tilt und kinetische Typografie.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+    <a class="vc" href="index4.html">
+      <div class="vc__media"><img src="assets/img/poster/s5-office.jpg" alt="" /><span class="vc__tag">V4 · Wow</span></div>
+      <div class="vc__body"><h2>Horizontal Journey</h2><p>Eine seitwärts scrollende, kinematische Reise durch alle Leistungen — mit Parallax und Fortschrittsanzeige.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+    <a class="vc" href="index5.html">
+      <div class="vc__media"><img src="assets/img/poster/s6-living.jpg" alt="" /><span class="vc__tag">V5 · Hell</span></div>
+      <div class="vc__body"><h2>Daylight</h2><p>Hell, luftig & editorial: Serif-Typografie, Sticky-Stacking-Cards, frische, vertrauensvolle Atmosphäre.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+    <a class="vc" href="index2.html">
+      <div class="vc__media"><img src="assets/img/poster/s3-dryice.jpg" alt="" /><span class="vc__tag">V2 · Cinematic</span></div>
+      <div class="vc__body"><h2>Cinematic Auto-Play</h2><p>Mit Ladebildschirm & Start: Schritt-für-Schritt-Botschaften, Kino- oder Scroll-Hintergrundmodus.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+    <a class="vc" href="index.html">
+      <div class="vc__media"><img src="assets/img/poster/s0-hero.jpg" alt="" /><span class="vc__tag">V1 · Auto</span></div>
+      <div class="vc__body"><h2>Auto-Hintergrund</h2><p>Klassisches Scrollen mit endlos laufenden Hintergrundvideos und sanften Überblendungen.</p><span class="vc__go">Ansehen →</span></div>
+    </a>
+  </div>
+  <p class="foot">© <span id="y"></span> EM Dienstleistung · Sauberkeit, auf die Sie sich verlassen können.</p>
+</div>
+<script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+</body>
+</html>

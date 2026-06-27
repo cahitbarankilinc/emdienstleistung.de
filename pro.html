@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>EM Dienstleistung — Sauberkeit auf höchstem Niveau</title>
+<meta name="description" content="EM Dienstleistung Ingolstadt — Ihr zuverlässiger Partner für Sauberkeit. Praxisreinigung, Trockeneisreinigung, Wohnungs- & Hausreinigung, Büro, Bauendreinigung, Fenster- & Glasreinigung." />
+<link rel="icon" href="assets/logo/em-logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --red:#C0392B; --red-deep:#A93226; --red-bright:#e0584a; --glow:#ff7a5c;
+    --ink:#191919; --paper:#F4F1EB; --muted:#9a9389;
+    --stage-h:780vh;                 /* total scroll length of the film */
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:auto;-webkit-text-size-adjust:100%}
+  body{background:#0b0a09;color:var(--paper);font-family:'Inter',system-ui,sans-serif;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--red);color:#fff}
+  a{color:inherit}
+
+  /* ---------- Loader ---------- */
+  #loader{position:fixed;inset:0;z-index:100;background:#0b0a09;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .8s var(--ease),visibility .8s var(--ease)}
+  #loader.hide{opacity:0;visibility:hidden}
+  #loader img{width:78px;height:auto;filter:drop-shadow(0 10px 30px rgba(192,57,43,.55));animation:pulse 1.8s var(--ease) infinite}
+  #loader .nm{font-family:'Sora';font-weight:800;font-size:19px;letter-spacing:-.01em}
+  #loader .bar{width:180px;height:3px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden}
+  #loader .bar span{display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--red),var(--red-bright));border-radius:99px;animation:load 1.3s var(--ease) infinite}
+  #loader p{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.07);opacity:1}}
+  @keyframes load{0%{transform:translateX(-120%)}100%{transform:translateX(360%)}}
+
+  /* ---------- Header ---------- */
+  header{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(18px,4vw,52px);transition:background .5s var(--ease),backdrop-filter .5s var(--ease),padding .5s var(--ease)}
+  header.solid{background:rgba(11,10,9,.5);backdrop-filter:blur(14px) saturate(1.2);padding-top:12px;padding-bottom:12px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+  .brand img{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(192,57,43,.5))}
+  .brand b{font-family:'Sora';font-weight:800;font-size:18px;letter-spacing:-.02em;color:#fff;white-space:nowrap}
+  .brand b span{color:var(--red-bright)}
+  .nav{display:flex;align-items:center;gap:30px}
+  .nav .links{display:flex;gap:30px}
+  .nav a{color:rgba(244,241,235,.78);text-decoration:none;font-size:14px;font-weight:500;transition:color .3s var(--ease)}
+  .nav a:hover{color:#fff}
+  .cta{display:inline-flex;align-items:center;gap:9px;font-family:'Sora';font-weight:600;font-size:14px;color:#fff;text-decoration:none;cursor:pointer;border:0;padding:11px 20px;border-radius:99px;background:linear-gradient(135deg,var(--red-bright),var(--red-deep));box-shadow:0 6px 20px -6px rgba(192,57,43,.7),inset 0 1px 0 rgba(255,255,255,.18);transition:transform .35s var(--ease),box-shadow .35s var(--ease),filter .35s var(--ease)}
+  .cta:hover{transform:translateY(-2px);box-shadow:0 12px 30px -8px rgba(192,57,43,.85),inset 0 1px 0 rgba(255,255,255,.25);filter:brightness(1.06)}
+  .ghost{background:transparent;border:1px solid rgba(244,241,235,.28);color:#fff;box-shadow:none}
+  .ghost:hover{background:rgba(244,241,235,.08);border-color:rgba(244,241,235,.5);transform:translateY(-2px)}
+  @media(max-width:760px){.nav .links{display:none}.brand b{font-size:16px}.nav{gap:14px}header{padding-left:16px;padding-right:16px}.cta{padding:10px 16px}}
+
+  /* ---------- Scroll stage ---------- */
+  .scroll-root{position:relative;height:var(--stage-h)}
+  .stage{position:sticky;top:0;height:100svh;overflow:hidden}
+  .film,.film video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .film video{display:block;background:#000}
+  .grade{position:absolute;inset:0;pointer-events:none;background:
+      radial-gradient(120% 80% at 50% 8%, rgba(11,10,9,.05), rgba(11,10,9,.6) 95%),
+      radial-gradient(90% 70% at 18% 92%, rgba(169,50,38,.4), transparent 60%),
+      linear-gradient(180deg, rgba(11,10,9,.5) 0%, transparent 22%, transparent 58%, rgba(11,10,9,.78) 100%)}
+  /* side scrim follows the active text side */
+  .sidescrim{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .6s var(--ease)}
+  body[data-side="left"] .sidescrim{opacity:1;background:linear-gradient(90deg,rgba(11,10,9,.72) 0%,rgba(11,10,9,.25) 40%,transparent 66%)}
+  body[data-side="right"] .sidescrim{opacity:1;background:linear-gradient(270deg,rgba(11,10,9,.72) 0%,rgba(11,10,9,.25) 40%,transparent 66%)}
+  .grain{position:absolute;inset:-50%;pointer-events:none;opacity:.06;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grainShift 7s steps(6) infinite}
+  @keyframes grainShift{0%{transform:translate(0,0)}50%{transform:translate(-3%,2%)}100%{transform:translate(2%,-2%)}}
+
+  /* ---------- Scenes ---------- */
+  .scenes{position:absolute;inset:0;z-index:5}
+  .scene{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(22px,7vw,120px);opacity:0;visibility:hidden;transition:opacity .7s var(--ease),visibility .7s var(--ease);will-change:opacity}
+  .scene.active{opacity:1;visibility:visible}
+  .scene.right{align-items:flex-end;text-align:right}
+  .scene .inner{max-width:620px;transform:translateY(34px);opacity:0;transition:transform 1s var(--ease),opacity 1s var(--ease)}
+  .scene.right .inner{transform:translateX(60px) translateY(0)}
+  .scene.left .inner{transform:translateX(-60px) translateY(0)}
+  .scene.active .inner{transform:none;opacity:1}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Sora';font-weight:600;font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--red-bright);margin-bottom:20px}
+  .eyebrow::before{content:"";width:34px;height:2px;background:linear-gradient(90deg,var(--red-bright),transparent)}
+  .scene.right .eyebrow{flex-direction:row-reverse}
+  .scene.right .eyebrow::before{background:linear-gradient(270deg,var(--red-bright),transparent)}
+  h1{font-family:'Sora';font-weight:800;letter-spacing:-.035em;line-height:1.0;font-size:clamp(2.6rem,7vw,5.4rem);color:#fff;text-shadow:0 14px 50px rgba(0,0,0,.5)}
+  h1 .accent{color:var(--red-bright)}
+  h2{font-family:'Sora';font-weight:700;letter-spacing:-.03em;line-height:1.04;font-size:clamp(2rem,5vw,3.7rem);color:#fff;text-shadow:0 12px 40px rgba(0,0,0,.5)}
+  h2 em{font-style:normal;color:var(--red-bright)}
+  .lead{font-size:clamp(1.02rem,1.6vw,1.32rem);color:rgba(244,241,235,.9);margin-top:18px;max-width:46ch;font-weight:400}
+  .scene.right .lead{margin-left:auto}
+
+  /* rotating headline (V8) */
+  .rot{position:relative;display:block;height:1.12em;overflow:hidden;width:100%}
+  .rot span{position:absolute;left:0;right:0;top:0;white-space:nowrap;color:var(--red-bright);opacity:0;transform:translateY(110%)}
+  .rot span.in{opacity:1;transform:none;transition:transform .6s var(--ease),opacity .6s}
+  .rot span.out{opacity:0;transform:translateY(-110%);transition:transform .6s var(--ease),opacity .6s}
+
+  .hero-lockup{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+  .hero-lockup img{width:clamp(54px,7vw,84px);height:auto;filter:drop-shadow(0 14px 38px rgba(192,57,43,.5))}
+  .hero-lockup .word{font-family:'Sora';font-weight:800;font-size:clamp(1.3rem,2.8vw,2.1rem);letter-spacing:-.03em;line-height:1;color:#fff}
+  .hero-lockup .word em{font-style:normal;color:var(--red-bright)}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+  .scene.right .hero-actions{justify-content:flex-end}
+  .trust{display:flex;gap:26px;margin-top:30px;flex-wrap:wrap;color:rgba(244,241,235,.72);font-size:.92rem}
+  .scene.right .trust{justify-content:flex-end}
+  .trust b{font-family:'Sora';font-weight:700;color:#fff;margin-right:6px}
+
+  .chips{display:flex;flex-wrap:wrap;gap:11px;margin-top:26px}
+  .scene.right .chips{justify-content:flex-end}
+  .chip{display:flex;align-items:center;gap:11px;padding:13px 17px;border-radius:14px;background:rgba(20,16,15,.5);border:1px solid rgba(244,241,235,.13);font-family:'Sora';font-weight:600;font-size:clamp(.92rem,1.2vw,1.05rem);color:#fff;box-shadow:0 10px 30px -14px rgba(0,0,0,.7);transition:transform .4s var(--ease),background .4s;transform-style:preserve-3d}
+  .chip .dot{width:9px;height:9px;border-radius:99px;background:var(--red-bright);box-shadow:0 0 12px var(--red-bright);flex:none}
+
+  .badges{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+  .scene.right .badges{justify-content:flex-end}
+  .badge{display:flex;align-items:center;gap:12px;padding:15px 19px;border-radius:16px;background:rgba(20,16,15,.52);border:1px solid rgba(244,241,235,.13);box-shadow:0 14px 40px -18px rgba(0,0,0,.8);transition:transform .4s var(--ease);transform-style:preserve-3d}
+  .badge svg{width:24px;height:24px;flex:none}
+  .badge b{font-family:'Sora';font-weight:600;font-size:1rem;color:#fff;display:block;line-height:1.2}
+  .badge small{color:rgba(244,241,235,.65);font-size:.82rem}
+
+  /* contact */
+  .contact-card{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px;max-width:640px}
+  .rowline{display:flex;align-items:center;gap:13px;padding:14px 18px;border-radius:14px;background:rgba(20,16,15,.52);border:1px solid rgba(244,241,235,.12);transition:transform .4s var(--ease);transform-style:preserve-3d}
+  .rowline svg{width:20px;height:20px;color:var(--red-bright);flex:none}
+  .rowline a,.rowline span{color:#fff;text-decoration:none;font-weight:500;font-size:.98rem;word-break:break-word}
+  .rowline a:hover{color:var(--red-bright)}
+  .rowline small{display:block;color:rgba(244,241,235,.6);font-size:.76rem;letter-spacing:.04em}
+  .legal{position:absolute;bottom:64px;left:0;right:0;text-align:center;font-size:12px;color:rgba(244,241,235,.5);padding:0 20px}
+  @media(max-width:760px){.contact-card{grid-template-columns:1fr}.scene{justify-content:flex-end;padding-bottom:18vh}.scene.right{align-items:flex-start;text-align:left}.scene.right .inner{transform:translateY(34px)}}
+
+  /* scroll cue */
+  .cue{position:fixed;bottom:54px;left:50%;transform:translateX(-50%);z-index:30;display:flex;flex-direction:column;align-items:center;gap:9px;color:rgba(244,241,235,.7);font-size:11px;letter-spacing:.24em;text-transform:uppercase;transition:opacity .5s var(--ease)}
+  .cue .mouse{width:24px;height:38px;border:2px solid rgba(244,241,235,.5);border-radius:14px;position:relative}
+  .cue .mouse::after{content:"";position:absolute;top:7px;left:50%;transform:translateX(-50%);width:3px;height:7px;border-radius:99px;background:var(--paper);animation:wheel 1.6s var(--ease) infinite}
+  @keyframes wheel{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,12px)}}
+
+  /* progress + dots */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0%;z-index:70;background:linear-gradient(90deg,var(--red-deep),var(--glow));box-shadow:0 0 14px rgba(224,88,74,.7)}
+  .dots{position:fixed;right:26px;top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:13px}
+  .dots button{width:9px;height:9px;border-radius:99px;border:0;cursor:pointer;background:rgba(244,241,235,.3);transition:transform .35s var(--ease),background .35s var(--ease)}
+  .dots button.on{background:var(--red-bright);transform:scale(1.5);box-shadow:0 0 12px var(--red-bright)}
+  @media(max-width:760px){.dots{display:none}}
+
+  /* ribbon (V1) */
+  .ribbon{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px 0;overflow:hidden;border-top:1px solid rgba(244,241,235,.12);background:linear-gradient(0deg,rgba(11,10,9,.92),transparent);pointer-events:none}
+  .ribbon__row{display:flex;width:max-content;white-space:nowrap;animation:ribbon 30s linear infinite}
+  .ribbon__row span{font-family:'Sora';font-weight:700;font-size:.82rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,241,235,.6);padding:0 20px}
+  .ribbon__row i{color:var(--red-bright)}
+  @keyframes ribbon{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  body[data-step="6"] .ribbon{opacity:0;transition:opacity .5s var(--ease)}
+
+  /* sponge cursor (V3) */
+  .sponge{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;transform:translate(-200px,-200px);will-change:transform}
+  .sponge__b{width:36px;height:26px;border-radius:7px;background:linear-gradient(160deg,#ffd64a,#f3b81f);position:relative;box-shadow:0 4px 12px rgba(0,0,0,.35),inset 0 2px 3px rgba(255,255,255,.5);transform:rotate(-12deg);transition:transform .25s var(--ease)}
+  .sponge__b::after{content:"";position:absolute;left:0;right:0;bottom:0;height:9px;border-radius:0 0 7px 7px;background:linear-gradient(#3fb061,#2e9150)}
+  .sponge.hot .sponge__b{transform:rotate(8deg) scale(1.18)}
+  @media(hover:none),(pointer:coarse){.sponge{display:none}}
+  body.sponging{cursor:none}body.sponging a,body.sponging button{cursor:none}
+
+  .vtoggle{position:fixed;left:18px;bottom:58px;z-index:45;font-family:'Sora';font-weight:700;font-size:.78rem;color:#fff;background:rgba(20,16,15,.5);border:1px solid rgba(244,241,235,.14);border-radius:99px;padding:8px 15px;text-decoration:none;display:inline-flex;gap:8px;align-items:center;opacity:.6;transition:opacity .3s,transform .3s var(--ease)}
+  .vtoggle:hover{opacity:1;transform:translateY(-2px)}.vtoggle i{width:6px;height:6px;border-radius:99px;background:var(--red-bright)}
+  @media(max-width:760px){.vtoggle,.cue{display:none}}
+
+  @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.05ms!important}}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <img src="assets/logo/em-logo.png" alt="EM Dienstleistung" />
+  <div class="nm">EM Dienstleistung</div>
+  <div class="bar"><span></span></div>
+  <p>Sauberkeit lädt…</p>
+</div>
+
+<div class="sponge" id="sponge" aria-hidden="true"><div class="sponge__b"></div></div>
+<div class="progress" id="progress"></div>
+
+<header id="header">
+  <a class="brand" href="#top" aria-label="EM Dienstleistung"><img src="assets/logo/em-logo.png" alt="" /><b>EM <span>Dienstleistung</span></b></a>
+  <nav class="nav" aria-label="Hauptnavigation">
+    <span class="links"><a href="#leistungen">Leistungen</a><a href="#warum">Warum wir</a><a href="#kontakt">Kontakt</a></span>
+    <a class="cta" href="mailto:em_dienstleistungen@web.de?subject=Angebot">Jetzt anfragen
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </nav>
+</header>
+
+<div class="dots" id="dots" aria-hidden="true"></div>
+
+<main id="top" class="scroll-root">
+  <div class="stage">
+    <div class="film"><video id="film" muted playsinline preload="auto" poster="assets/img/landing-poster.jpg"></video></div>
+    <div class="grade"></div>
+    <div class="sidescrim"></div>
+    <div class="grain"></div>
+
+    <div class="scenes" id="scenes">
+
+      <!-- 1 HERO · Empfang/Lobby (0–7s) -->
+      <section class="scene left" data-start="0" data-end="0.14" data-side="left">
+        <div class="inner">
+          <div class="hero-lockup"><img src="assets/logo/em-logo.png" alt="EM Dienstleistung Logo" /><span class="word">EM <em>Dienstleistung</em></span></div>
+          <h1>Sauberkeit, die<br><span class="rot" id="rot"></span></h1>
+          <p class="lead">Ihr zuverlässiger Partner für professionelle Reinigung in Ingolstadt und Umgebung — gründlich, termintreu und mit einem Auge fürs Detail.</p>
+          <div class="hero-actions">
+            <a class="cta" href="#kontakt">Jetzt anfragen
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="cta ghost" href="#leistungen">Unsere Leistungen</a>
+          </div>
+          <div class="trust"><span><b>★ 4,9</b> Bewertung</span><span><b>50+</b> Mitarbeiter</span><span><b>20</b> Jahre Erfahrung</span></div>
+        </div>
+      </section>
+
+      <!-- 2 BÜRO & GEWERBE · Office (8–16s) -->
+      <section class="scene right" data-start="0.19" data-end="0.34" data-side="right" id="leistungen">
+        <div class="inner">
+          <span class="eyebrow">Leistung 01 · Büro &amp; Gewerbe</span>
+          <h2>Saubere Räume für<br><em>starke Auftritte.</em></h2>
+          <p class="lead">Büros, Geschäftsräume und Gewerbeflächen — diskret, termintreu und zuverlässig gereinigt, Tag für Tag.</p>
+          <div class="chips"><span class="chip" data-tilt><span class="dot"></span>Unterhaltsreinigung</span><span class="chip" data-tilt><span class="dot"></span>Bauendreinigung</span><span class="chip" data-tilt><span class="dot"></span>Diskret &amp; termintreu</span></div>
+        </div>
+      </section>
+
+      <!-- 3 FENSTER & GLAS · Glass (17–24s) -->
+      <section class="scene left" data-start="0.40" data-end="0.51" data-side="left">
+        <div class="inner">
+          <span class="eyebrow">Leistung 02 · Fenster- &amp; Glasreinigung</span>
+          <h2>Streifenfreie <em>Klarheit.</em></h2>
+          <p class="lead">Kristallklare Fenster, Glasfassaden und Trennwände — innen wie außen, in jeder Höhe sicher und makellos.</p>
+          <div class="chips"><span class="chip" data-tilt><span class="dot"></span>Glasfassaden</span><span class="chip" data-tilt><span class="dot"></span>Innen &amp; außen</span><span class="chip" data-tilt><span class="dot"></span>Höhenarbeit · versichert</span></div>
+        </div>
+      </section>
+
+      <!-- 4 PRAXIS · Clinic (25–30s) -->
+      <section class="scene right" data-start="0.56" data-end="0.65" data-side="right">
+        <div class="inner">
+          <span class="eyebrow">Leistung 03 · Praxisreinigung</span>
+          <h2>Hygiene, der man<br><em>vertraut.</em></h2>
+          <p class="lead">Zertifizierte, gründliche Reinigung für Praxen, Labore und sensible Bereiche — hygienisch einwandfrei.</p>
+          <div class="chips"><span class="chip" data-tilt><span class="dot"></span>Zertifizierte Hygiene</span><span class="chip" data-tilt><span class="dot"></span>Trockeneisreinigung</span><span class="chip" data-tilt><span class="dot"></span>Flächendesinfektion</span></div>
+        </div>
+      </section>
+
+      <!-- 5 KÜCHE & SOZIALRÄUME · Kitchen (31–38s) -->
+      <section class="scene left" data-start="0.70" data-end="0.82" data-side="left">
+        <div class="inner">
+          <span class="eyebrow">Leistung 04 · Küche &amp; Sozialräume</span>
+          <h2>Gründlich bis ins<br><em>Detail.</em></h2>
+          <p class="lead">Küchen, Teeküchen und Sozialräume — hygienisch rein bis in jede Ecke, für ein gutes Gefühl im Team.</p>
+          <div class="chips"><span class="chip" data-tilt><span class="dot"></span>Fettlösung</span><span class="chip" data-tilt><span class="dot"></span>Oberflächen &amp; Geräte</span><span class="chip" data-tilt><span class="dot"></span>Tiefenhygiene</span></div>
+        </div>
+      </section>
+
+      <!-- 6 WOHNEN + WARUM · Living (39–43s) -->
+      <section class="scene right" data-start="0.86" data-end="0.925" data-side="right" id="warum">
+        <div class="inner">
+          <span class="eyebrow">Leistung 05 · Wohnungsreinigung · Warum wir</span>
+          <h2>Ein Zuhause zum<br><em>Aufatmen.</em></h2>
+          <div class="badges">
+            <div class="badge" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="#e0584a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span><b>Zuverlässig &amp; gründlich</b><small>Bis ins letzte Detail</small></span></div>
+            <div class="badge" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="#e0584a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Flexibel &amp; pünktlich</b><small>Termine, die passen</small></span></div>
+            <div class="badge" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="#e0584a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span><b>Faire-Preis-Garantie</b><small>Transparent &amp; ehrlich</small></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7 KONTAKT · Living end (43–46s) -->
+      <section class="scene left" data-start="0.945" data-end="1.001" data-side="left" id="kontakt">
+        <div class="inner">
+          <span class="eyebrow">Kontakt</span>
+          <h2>Jetzt unverbindlich <em>anfragen.</em></h2>
+          <div class="contact-card">
+            <div class="rowline" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg><span><a href="tel:+491736519200">+49 173 6519200</a><small>Herr Mese</small></span></div>
+            <div class="rowline" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg><span><a href="tel:+4917620566632">+49 176 20566632</a><small>Frau Mese</small></span></div>
+            <div class="rowline" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6 12 13 2 6"/></svg><span><a href="mailto:em_dienstleistungen@web.de">em_dienstleistungen@web.de</a><small>E-Mail</small></span></div>
+            <div class="rowline" data-tilt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><span>Brucknerstr. 4, 85057 Ingolstadt</span><small>Adresse</small></span></div>
+          </div>
+          <div class="hero-actions"><a class="cta" href="mailto:em_dienstleistungen@web.de?subject=Kostenloses%20Angebot">Kostenloses Angebot
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+        </div>
+        <div class="legal">© <span id="yr"></span> EM Dienstleistung · Ingolstadt — Sauberkeit, auf die Sie sich verlassen können.</div>
+      </section>
+
+    </div><!-- /scenes -->
+  </div>
+</main>
+
+<div class="cue" id="cue"><span>Scrollen</span><span class="mouse"></span></div>
+<div class="ribbon" aria-hidden="true"><div class="ribbon__row" id="ribrow"></div></div>
+<a class="vtoggle" href="hub.html"><i></i> Alle Versionen</a>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  var FILM_DURATION = 46.08;
+  var video    = document.getElementById('film');
+  var root     = document.querySelector('.scroll-root');
+  var scenes   = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+  var progress = document.getElementById('progress');
+  var header   = document.getElementById('header');
+  var cue      = document.getElementById('cue');
+  var dotsWrap = document.getElementById('dots');
+  var reduce   = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var SCRUB    = matchMedia('(min-width:768px) and (pointer:fine)').matches && !reduce;
+
+  video.src = SCRUB ? 'assets/video/landing.mp4' : 'assets/video/landing_mobile.mp4';
+
+  /* ribbon */
+  (function(){var w=['Vertrauen','Präzision','Zuverlässigkeit','Sauberkeit','Qualität'],u='';for(var k=0;k<4;k++)w.forEach(function(x){u+='<span>'+x+'</span><i>✦</i>';});document.getElementById('ribrow').innerHTML=u+u;})();
+
+  /* rotating headline (V8) */
+  (function(){
+    var rot=document.getElementById('rot'),words=['überzeugt.','begeistert.','glänzt.','Vertrauen schafft.'],i=0;
+    rot.innerHTML='<span class="in">'+words[0]+'</span>';
+    if(!reduce)setInterval(function(){var old=rot.querySelector('span.in');var nw=document.createElement('span');i=(i+1)%words.length;nw.textContent=words[i];rot.appendChild(nw);requestAnimationFrame(function(){nw.classList.add('in');if(old){old.classList.remove('in');old.classList.add('out');setTimeout(function(){old.remove();},700);}});},2600);
+  })();
+
+  /* nav dots */
+  scenes.forEach(function(s,i){
+    var b=document.createElement('button');b.setAttribute('aria-label','Abschnitt '+(i+1));
+    b.addEventListener('click',function(){var max=root.offsetHeight-window.innerHeight;var mid=(parseFloat(s.dataset.start)+Math.min(1,parseFloat(s.dataset.end)))/2;window.scrollTo({top:max*mid,behavior:'smooth'});});
+    dotsWrap.appendChild(b);
+  });
+  var dotBtns=Array.prototype.slice.call(dotsWrap.children);
+
+  /* loader */
+  function hideLoader(){document.getElementById('loader').classList.add('hide');}
+  video.addEventListener('loadeddata',function(){ if(SCRUB){video.pause();} else {video.loop=true;video.play().catch(function(){});} hideLoader(); });
+  video.addEventListener('error',hideLoader);
+  setTimeout(hideLoader,7000);
+
+  /* scrub */
+  var targetTime=0,curTime=0,rafActive=false;
+  function getProgress(){var max=root.offsetHeight-window.innerHeight;return Math.min(1,Math.max(0,window.scrollY/max));}
+  function updateScenes(p){
+    var active=-1;
+    scenes.forEach(function(s,i){var a=parseFloat(s.dataset.start),b=parseFloat(s.dataset.end);var on=p>=a-0.001&&p<b;s.classList.toggle('active',on);if(on)active=i;});
+    progress.style.width=(p*100).toFixed(2)+'%';
+    var idx=0;scenes.forEach(function(s,i){if(p>=parseFloat(s.dataset.start)-0.001)idx=i;});
+    dotBtns.forEach(function(b,i){b.classList.toggle('on',i===idx);});
+    cue.style.opacity=p>0.04?0:1;
+    header.classList.toggle('solid',window.scrollY>40);
+    document.body.dataset.step=idx;
+    document.body.dataset.side = active>=0 ? (scenes[active].dataset.side||'') : (scenes[idx]?scenes[idx].dataset.side||'':'');
+  }
+  function onScroll(){targetTime=getProgress()*FILM_DURATION;updateScenes(getProgress());if(SCRUB&&!rafActive){rafActive=true;requestAnimationFrame(tick);}}
+  function tick(){
+    curTime+=(targetTime-curTime)*0.14;
+    if(Math.abs(targetTime-curTime)<0.004){curTime=targetTime;rafActive=false;}
+    if(video.readyState>=2&&isFinite(video.duration)){var t=Math.min(video.duration-0.05,Math.max(0,curTime));if(Math.abs(video.currentTime-t)>0.012){try{video.currentTime=t;}catch(e){}}}
+    if(rafActive)requestAnimationFrame(tick);
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  window.addEventListener('load',function(){updateScenes(getProgress());});
+  updateScenes(0);
+
+  /* sponge cursor + 3D tilt (V3) */
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){
+    document.body.classList.add('sponging');
+    var sponge=document.getElementById('sponge'),mx=innerWidth/2,my=innerHeight/2,sx=mx,sy=my;
+    addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+    (function f(){sx+=(mx-sx)*0.22;sy+=(my-sy)*0.22;sponge.style.transform='translate('+(sx-18)+'px,'+(sy-13)+'px)';requestAnimationFrame(f);})();
+    document.querySelectorAll('a,button,.chip,.badge,.rowline').forEach(function(el){el.addEventListener('mouseenter',function(){sponge.classList.add('hot');});el.addEventListener('mouseleave',function(){sponge.classList.remove('hot');});});
+    document.querySelectorAll('[data-tilt]').forEach(function(el){
+      el.addEventListener('mousemove',function(e){var r=el.getBoundingClientRect();var rx=-((e.clientY-r.top)/r.height-0.5)*9;var ry=((e.clientX-r.left)/r.width-0.5)*9;el.style.transform='perspective(680px) rotateX('+rx+'deg) rotateY('+ry+'deg)';});
+      el.addEventListener('mouseleave',function(){el.style.transform='';});
+    });
+  }
+</script>
+</body>
+</html>

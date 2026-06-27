@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>EM Dienstleistung — Cinematic</title>
+<meta name="description" content="EM Dienstleistung Ingolstadt — Ihr zuverlässiger Partner für professionelle Reinigung." />
+<meta name="theme-color" content="#0d0d0f" />
+<link rel="icon" href="assets/logo/logo-mark.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="v2">
+
+<div class="launch" id="launch">
+  <div class="launch__inner">
+    <img class="launch__logo" src="assets/logo/logo-mark.png" alt="EM" />
+    <div class="launch__name">EM Dienstleistung</div>
+    <div class="launch__bar"><span id="launchBar"></span></div>
+    <p class="launch__status" id="launchStatus">Erlebnis wird vorbereitet …</p>
+    <button class="launch__start" id="launchStart" type="button" hidden>Erlebnis starten <span>▶</span></button>
+  </div>
+</div>
+
+<div class="bg-stack" id="bgStack">
+  <div class="bg-layer is-active" data-scene="0"><video class="bg-video" data-scene="0" poster="assets/img/poster/intro.jpg" muted playsinline preload="auto"><source src="assets/video/scrub/intro.mp4" type="video/mp4" /></video></div>
+  <div class="bg-layer" data-scene="1"><video class="bg-video" data-scene="1" poster="assets/img/poster/s0-hero.jpg" muted playsinline preload="auto"><source src="assets/video/scrub/s0.mp4" type="video/mp4" /></video></div>
+  <div class="bg-layer" data-scene="2"><video class="bg-video" data-scene="2" poster="assets/img/poster/services.jpg" muted playsinline preload="auto"><source src="assets/video/scrub/services.mp4" type="video/mp4" /></video></div>
+  <div class="bg-layer" data-scene="3"><video class="bg-video" data-scene="3" poster="assets/img/poster/s1-wipe.jpg" muted playsinline preload="auto"><source src="assets/video/scrub/s1.mp4" type="video/mp4" /></video></div>
+  <div class="bg-layer" data-scene="4"><video class="bg-video" data-scene="4" poster="assets/img/poster/s2-clinic.jpg" muted playsinline preload="auto"><source src="assets/video/scrub/s2.mp4" type="video/mp4" /></video></div>
+  <div class="bg-layer" data-scene="5"><video class="bg-video" data-scene="5" poster="assets/img/poster/s3-dryice.jpg" muted playsinline preload="auto"><source src="assets/video/scrub/s3.mp4" type="video/mp4" /></video></div>
+  <div class="bg-layer" data-scene="6"><video class="bg-video" data-scene="6" poster="assets/img/poster/s4-glass.jpg" muted playsinline preload="auto"><source src="assets/video/scrub/s4.mp4" type="video/mp4" /></video></div>
+  <div class="bg-layer" data-scene="7"><video class="bg-video" data-scene="7" poster="assets/img/poster/s5-office.jpg" muted playsinline preload="auto"><source src="assets/video/scrub/s5.mp4" type="video/mp4" /></video></div>
+  <div class="bg-layer" data-scene="8"><video class="bg-video" data-scene="8" poster="assets/img/poster/s6-living.jpg" muted playsinline preload="auto"><source src="assets/video/scrub/s6.mp4" type="video/mp4" /></video></div>
+  <div class="bg-layer" data-scene="9"><video class="bg-video" data-scene="9" poster="assets/img/poster/s0-hero.jpg" muted playsinline preload="auto"><source src="assets/video/scrub/s0.mp4" type="video/mp4" /></video></div>
+  <div class="bg-layer" data-scene="10"><video class="bg-video" data-scene="10" poster="assets/img/poster/s7-cta.jpg" muted playsinline preload="auto"><source src="assets/video/scrub/s7.mp4" type="video/mp4" /></video></div>
+  <div class="bg-scrim"></div>
+  <div class="bg-grain"></div>
+</div>
+
+<header class="site-header" id="header">
+  <a href="#hero" class="brand" data-goto="1"><img src="assets/logo/logo-mark.png" alt="" class="brand__mark" /><span class="brand__name">EM&nbsp;Dienstleistung</span></a>
+  <nav class="site-nav">
+    <a href="#leistungen" data-goto="2">Leistungen</a>
+    <a href="#trockeneis" data-goto="5">Trockeneis</a>
+    <a href="#zahlen" data-goto="9">Über uns</a>
+    <a href="#buero" data-goto="7">Büro&nbsp;&amp;&nbsp;Bau</a>
+  </nav>
+  <a href="#kontakt" class="header-cta" data-goto="10">Jetzt anfragen</a>
+</header>
+
+<div class="progress" id="progress"><span></span></div>
+<nav class="dots" id="dots" aria-label="Abschnitte"></nav>
+<a class="version-toggle" href="index.html" title="Scroll-Version"><i></i> <b>Auto</b>-Version&nbsp;→</a>
+<button class="bg-toggle" id="bgToggle" type="button" title="Hintergrund-Verhalten umschalten">Hintergrund: <b id="bgModeLabel">Kino</b></button>
+<div class="nav-hint" id="navHint"><span>Scrollen · Pfeiltasten · Wischen</span></div>
+
+<main id="main">
+  <section class="scene scene--intro" id="intro" data-scene="0"><div class="scene__inner"></div></section>
+
+  <section class="scene scene--hero" id="hero" data-scene="1"><div class="scene__inner">
+    <div class="slide"><div class="slide__box align-left">
+      <p class="eyebrow"><span>EM Dienstleistung · Ingolstadt</span></p>
+      <h1 class="display reveal-mask"><span class="line"><span>Sauberkeit auf</span></span><span class="line"><span>höchstem <em>Niveau.</em></span></span></h1>
+      <p class="lede">Ihr zuverlässiger Partner für professionelle Reinigung — gründlich, termintreu und mit einem Auge fürs Detail.</p>
+      <div class="hero__actions"><a href="#kontakt" class="btn btn--primary" data-goto="10">Jetzt anfragen</a><a href="#leistungen" class="btn btn--ghost" data-goto="2">Unsere Leistungen</a></div>
+    </div></div>
+  </div></section>
+
+  <section class="scene" id="leistungen" data-scene="2"><div class="scene__inner">
+    <div class="slide"><div class="slide__box align-center">
+      <p class="eyebrow"><span>Unsere Leistungen</span></p>
+      <h2 class="display display--md reveal-mask"><span class="line"><span>Alles aus <em>einer Hand.</em></span></span></h2>
+      <p class="lede">Von der sensiblen Praxis bis zur Baustelle — wir reinigen, was Ihnen wichtig ist.</p>
+    </div></div>
+    <div class="slide"><div class="slide__box align-center"><div class="grid">
+      <div class="card"><span class="card__no">01</span><h3>Praxisreinigung</h3><p>Hygienisch &amp; zertifiziert.</p></div>
+      <div class="card"><span class="card__no">02</span><h3>Trockeneisreinigung</h3><p>Schonend &amp; rückstandsfrei.</p></div>
+      <div class="card"><span class="card__no">03</span><h3>Fenster- &amp; Glasreinigung</h3><p>Streifenfreie Klarheit.</p></div>
+      <div class="card"><span class="card__no">04</span><h3>Büro- &amp; Geschäftsräume</h3><p>Saubere Arbeitswelten.</p></div>
+      <div class="card"><span class="card__no">05</span><h3>Bauendreinigung</h3><p>Besenrein bis ins Detail.</p></div>
+      <div class="card"><span class="card__no">06</span><h3>Wohnungs- &amp; Hausreinigung</h3><p>Zuhause zum Aufatmen.</p></div>
+    </div></div></div>
+  </div></section>
+
+  <section class="scene" id="klarheit" data-scene="3"><div class="scene__inner">
+    <div class="slide"><div class="slide__box align-right"><p class="eyebrow"><span>01 — Präzision</span></p><h2 class="display display--md reveal-mask"><span class="line"><span>Klarheit,</span></span><span class="line"><span>die man <em>sieht.</em></span></span></h2></div></div>
+    <div class="slide"><div class="slide__box align-left"><h2 class="display display--md reveal-mask"><span class="line"><span>Wir bringen den</span></span><span class="line"><span><em>Glanz</em> zurück.</span></span></h2><p class="lede">Moderne Technik, Sorgfalt und Leidenschaft für ein makelloses Ergebnis.</p></div></div>
+    <div class="slide"><div class="slide__box align-center"><h2 class="display display--md reveal-mask"><span class="line"><span>Streifenfrei. Makellos.</span></span><span class="line"><span><em>Jedes Mal.</em></span></span></h2></div></div>
+  </div></section>
+
+  <section class="scene" id="praxis" data-scene="4"><div class="scene__inner">
+    <div class="slide"><div class="slide__box align-left"><p class="eyebrow"><span>02 — Praxisreinigung</span></p><h2 class="display display--md reveal-mask"><span class="line"><span>Hygiene, der man</span></span><span class="line"><span><em>vertraut.</em></span></span></h2></div></div>
+    <div class="slide"><div class="slide__box align-right"><h2 class="display display--md reveal-mask"><span class="line"><span>Zertifiziert</span></span><span class="line"><span>&amp; <em>gründlich.</em></span></span></h2><p class="lede">Für Praxen, Labore und sensible Bereiche — hygienisch einwandfrei.</p></div></div>
+    <div class="slide"><div class="slide__box align-center"><h2 class="display display--md reveal-mask"><span class="line"><span>Damit sich Ihre Patienten</span></span><span class="line"><span><em>wohlfühlen.</em></span></span></h2></div></div>
+  </div></section>
+
+  <section class="scene" id="trockeneis" data-scene="5"><div class="scene__inner">
+    <div class="slide"><div class="slide__box align-left"><p class="eyebrow"><span>03 — Trockeneisreinigung</span></p><h2 class="display display--md reveal-mask"><span class="line"><span>Reinigung auf</span></span><span class="line"><span><em>Industrieniveau.</em></span></span></h2></div></div>
+    <div class="slide"><div class="slide__box align-right"><h2 class="display display--md reveal-mask"><span class="line"><span>Ohne Chemie.</span></span><span class="line"><span><em>Ohne Rückstände.</em></span></span></h2><p class="lede">Schonend für das Material, kompromisslos beim Ergebnis.</p></div></div>
+    <div class="slide"><div class="slide__box align-center"><h2 class="display display--md reveal-mask"><span class="line"><span>Selbst dort, wo</span></span><span class="line"><span>andere <em>aufgeben.</em></span></span></h2></div></div>
+  </div></section>
+
+  <section class="scene" id="glas" data-scene="6"><div class="scene__inner">
+    <div class="slide"><div class="slide__box align-left"><p class="eyebrow"><span>04 — Fenster- &amp; Glasreinigung</span></p><h2 class="display display--md reveal-mask"><span class="line"><span>Streifenfreie</span></span><span class="line"><span><em>Klarheit.</em></span></span></h2></div></div>
+    <div class="slide"><div class="slide__box align-right"><h2 class="display display--md reveal-mask"><span class="line"><span>In jeder</span></span><span class="line"><span><em>Höhe.</em></span></span></h2><p class="lede">Glänzende Fassaden, Fenster und Glasflächen — innen wie außen.</p></div></div>
+    <div class="slide"><div class="slide__box align-center"><h2 class="display display--md reveal-mask"><span class="line"><span>Fassaden, die</span></span><span class="line"><span><em>Eindruck machen.</em></span></span></h2></div></div>
+  </div></section>
+
+  <section class="scene" id="buero" data-scene="7"><div class="scene__inner">
+    <div class="slide"><div class="slide__box align-left"><p class="eyebrow"><span>05 — Büro, Gewerbe &amp; Bau</span></p><h2 class="display display--md reveal-mask"><span class="line"><span>Saubere Räume für</span></span><span class="line"><span>starke <em>Auftritte.</em></span></span></h2></div></div>
+    <div class="slide"><div class="slide__box align-right"><h2 class="display display--md reveal-mask"><span class="line"><span>Termintreu</span></span><span class="line"><span>&amp; <em>diskret.</em></span></span></h2><p class="lede">Wir arbeiten, wann es Ihnen passt — zuverlässig und unauffällig.</p></div></div>
+    <div class="slide"><div class="slide__box align-center"><h2 class="display display--md reveal-mask"><span class="line"><span>Bauendreinigung</span></span><span class="line"><span>bis ins <em>Detail.</em></span></span></h2></div></div>
+  </div></section>
+
+  <section class="scene" id="wohnen" data-scene="8"><div class="scene__inner">
+    <div class="slide"><div class="slide__box align-left"><p class="eyebrow"><span>06 — Wohnungs- &amp; Hausreinigung</span></p><h2 class="display display--md reveal-mask"><span class="line"><span>Ein Zuhause</span></span><span class="line"><span>zum <em>Aufatmen.</em></span></span></h2></div></div>
+    <div class="slide"><div class="slide__box align-center"><div class="values"><div class="value"><span class="value__no">01</span><h3>Zuverlässig &amp; gründlich</h3></div><div class="value"><span class="value__no">02</span><h3>Faire Preise</h3></div><div class="value"><span class="value__no">03</span><h3>Flexibel &amp; pünktlich</h3></div></div></div></div>
+  </div></section>
+
+  <section class="scene" id="zahlen" data-scene="9"><div class="scene__inner">
+    <div class="slide"><div class="slide__box align-center"><p class="eyebrow"><span>Warum EM Dienstleistung</span></p><h2 class="display display--md reveal-mask"><span class="line"><span>Zahlen, die</span></span><span class="line"><span><em>überzeugen.</em></span></span></h2></div></div>
+    <div class="slide"><div class="slide__box align-left"><div class="stat"><div class="stat__num" data-count="50" data-suffix="+">50+</div><div class="stat__label">Mitarbeiter im Einsatz</div></div></div></div>
+    <div class="slide"><div class="slide__box align-right"><div class="stat"><div class="stat__num" data-count="30" data-suffix="+">30+</div><div class="stat__label">Städte &amp; Regionen</div></div></div></div>
+    <div class="slide"><div class="slide__box align-left"><div class="stat"><div class="stat__num" data-count="20" data-suffix="">20</div><div class="stat__label">Jahre Erfahrung &amp; Vertrauen</div></div></div></div>
+  </div></section>
+
+  <section class="scene scene--cta" id="kontakt" data-scene="10"><div class="scene__inner">
+    <div class="slide"><div class="slide__box align-center cta">
+      <div class="cta__badge"><span>★</span> Faire-Preis-Garantie</div>
+      <h2 class="display display--xl reveal-mask"><span class="line"><span>Jetzt <em>anfragen.</em></span></span></h2>
+      <p class="lede lede--lg">Sauberkeit, auf die Sie sich verlassen können — zum garantiert fairen Preis. Fordern Sie jetzt Ihr <strong>kostenloses Angebot</strong> an.</p>
+      <div class="contact">
+        <a class="contact__item" href="tel:+491736519200"><span class="contact__label">Herr Mese</span><span class="contact__value">+49 173 6519200</span></a>
+        <a class="contact__item" href="tel:+4917620566632"><span class="contact__label">Frau Mese</span><span class="contact__value">+49 176 20566632</span></a>
+        <a class="contact__item" href="mailto:em_dienstleistungen@web.de"><span class="contact__label">E-Mail</span><span class="contact__value">em_dienstleistungen@web.de</span></a>
+        <div class="contact__item contact__item--static"><span class="contact__label">Adresse</span><span class="contact__value">Brucknerstr. 4, 85057 Ingolstadt</span></div>
+      </div>
+      <a href="mailto:em_dienstleistungen@web.de?subject=Kostenloses%20Angebot%20Reinigung" class="btn btn--primary btn--xl">Kostenloses Angebot sichern</a>
+    </div></div>
+    <footer class="site-footer"><img src="assets/logo/logo-mark.png" alt="" /><span>© <span id="year"></span> EM Dienstleistung · Sauberkeit, auf die Sie sich verlassen können.</span></footer>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="js/main2.js"></script>
+</body>
+</html>

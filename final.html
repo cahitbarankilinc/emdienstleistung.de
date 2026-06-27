@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
+<title>EM Dienstleistung — Sauberkeit auf höchstem Niveau</title>
+<meta name="theme-color" content="#08080a" />
+<link rel="icon" type="image/png" href="assets/logo/em-logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/final.css" />
+</head>
+<body class="final" data-step="0">
+
+<!-- background video (scroll-scrubbed, dense-keyframe) -->
+<video id="bgvid" muted playsinline preload="auto" poster="assets/img/landing-poster.jpg">
+  <source src="assets/video/landing.mp4?v=6" type="video/mp4" />
+</video>
+<div class="scrim"></div>
+<div class="scrim--side"></div>
+
+<!-- sponge cursor -->
+<div class="sponge" id="sponge" aria-hidden="true"><div class="sponge__b"></div></div>
+
+<!-- nav -->
+<header class="nav">
+  <a class="nav__brand" href="#" data-hot><img src="assets/logo/em-logo.png" alt="EM Dienstleistung" /><span>EM&nbsp;Dienstleistung</span></a>
+  <a class="nav__cta" href="mailto:em_dienstleistungen@web.de?subject=Angebot" data-hot>Jetzt anfragen</a>
+</header>
+
+<!-- progress dots -->
+<nav class="dots" id="dots" aria-label="Fortschritt"></nav>
+
+<!-- ===== overlays ===== -->
+<!-- step 0: hero -->
+<section class="ov ov--hero is-active" data-step="0">
+  <div class="ov__inner">
+    <span class="chip"><i></i> EM Dienstleistung · Ingolstadt</span>
+    <h1 class="hero__title">Sauberkeit, die<br><span class="hero__rot" id="rot"></span></h1>
+    <p class="hero__lede">Erleben Sie, wie wir Räume zum Strahlen bringen — vom ersten Eindruck bis ins letzte Detail. Scrollen Sie und sehen Sie selbst.</p>
+    <div class="hero__stats">
+      <div><b>50+</b><span>Mitarbeiter</span></div>
+      <div><b>30+</b><span>Städte &amp; Regionen</span></div>
+      <div><b>20</b><span>Jahre Erfahrung</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- step 1: Empfang -->
+<section class="ov ov--scene left" data-step="1">
+  <div class="ov__inner scene__box">
+    <div class="scene__no">01 · Empfang &amp; Eingang</div>
+    <h2 class="scene__title">Der erste <em>Eindruck</em> zählt.</h2>
+    <p class="scene__text">Makellose Eingangsbereiche, die Ihre Gäste schon an der Tür spüren.</p>
+    <ul class="scene__list">
+      <li><span class="ck">✓</span> Foyers, Empfangshallen &amp; Treppenhäuser</li>
+      <li><span class="ck">✓</span> Marmor-, Stein- &amp; Glanzbodenpflege</li>
+      <li><span class="ck">✓</span> Täglich oder ganz nach Ihrem Rhythmus</li>
+    </ul>
+  </div>
+  <div class="scene__float">Glanz ab der <em>ersten Minute.</em><span class="sm">Empfang, der überzeugt</span></div>
+</section>
+
+<!-- step 2: Büro -->
+<section class="ov ov--scene right" data-step="2">
+  <div class="ov__inner scene__box">
+    <div class="scene__no">02 · Büro &amp; Gewerbe</div>
+    <h2 class="scene__title">Saubere Räume für <em>starke Auftritte.</em></h2>
+    <p class="scene__text">Diskret, termintreu und zuverlässig — Tag für Tag in Bestform.</p>
+    <ul class="scene__list">
+      <li><span class="ck">✓</span> Arbeitsplätze, Böden &amp; Sanitäranlagen</li>
+      <li><span class="ck">✓</span> Reinigung außerhalb der Stoßzeiten</li>
+      <li><span class="ck">✓</span> Fester Ansprechpartner &amp; Qualitätskontrolle</li>
+    </ul>
+  </div>
+  <div class="scene__float">Diskret &amp; <em>termintreu.</em><span class="sm">Tag für Tag in Bestform</span></div>
+</section>
+
+<!-- step 3: Glas -->
+<section class="ov ov--scene left" data-step="3">
+  <div class="ov__inner scene__box">
+    <div class="scene__no">03 · Fenster- &amp; Glasreinigung</div>
+    <h2 class="scene__title">Streifenfreie <em>Klarheit.</em></h2>
+    <p class="scene__text">Glänzende Durchsicht, die Eindruck macht — bis ins letzte Eck.</p>
+    <ul class="scene__list">
+      <li><span class="ck">✓</span> Fenster, Glasfassaden &amp; Trennwände</li>
+      <li><span class="ck">✓</span> Innen wie außen, absolut streifenfrei</li>
+      <li><span class="ck">✓</span> Auch in großer Höhe – sicher &amp; versichert</li>
+    </ul>
+  </div>
+  <div class="scene__float"><em>100%</em> streifenfrei.<span class="sm">Klarer Durchblick</span></div>
+</section>
+
+<!-- step 4: Praxis -->
+<section class="ov ov--scene right" data-step="4">
+  <div class="ov__inner scene__box">
+    <div class="scene__no">04 · Praxisreinigung</div>
+    <h2 class="scene__title">Hygiene, der man <em>vertraut.</em></h2>
+    <p class="scene__text">Reinigung nach zertifizierten Hygienestandards — hygienisch einwandfrei.</p>
+    <ul class="scene__list">
+      <li><span class="ck">✓</span> Flächendesinfektion aller Kontaktpunkte</li>
+      <li><span class="ck">✓</span> Für Praxen, Labore &amp; Kliniken</li>
+      <li><span class="ck">✓</span> Diskret und absolut zuverlässig</li>
+    </ul>
+  </div>
+  <div class="scene__float"><em>Zertifizierte</em> Hygiene.<span class="sm">Vertrauen inklusive</span></div>
+</section>
+
+<!-- step 5: Küche -->
+<section class="ov ov--scene left" data-step="5">
+  <div class="ov__inner scene__box">
+    <div class="scene__no">05 · Küche &amp; Sozialräume</div>
+    <h2 class="scene__title">Gründlich bis ins <em>Detail.</em></h2>
+    <p class="scene__text">Hygienisch rein, wo es am meisten zählt — bis in jede Ecke.</p>
+    <ul class="scene__list">
+      <li><span class="ck">✓</span> Fettlösung &amp; gründliche Tiefenreinigung</li>
+      <li><span class="ck">✓</span> Arbeitsflächen, Geräte &amp; Böden</li>
+      <li><span class="ck">✓</span> Ein frisches Gefühl für Ihr Team</li>
+    </ul>
+  </div>
+  <div class="scene__float">Sauber bis ins <em>letzte Eck.</em><span class="sm">Keine Kompromisse</span></div>
+</section>
+
+<!-- step 6: Wohnen -->
+<section class="ov ov--scene right" data-step="6">
+  <div class="ov__inner scene__box">
+    <div class="scene__no">06 · Wohnungsreinigung</div>
+    <h2 class="scene__title">Ein Zuhause zum <em>Aufatmen.</em></h2>
+    <p class="scene__text">Mit Liebe zum Detail behandelt — Ihr Zuhause in Bestform.</p>
+    <ul class="scene__list">
+      <li><span class="ck">✓</span> Grund- &amp; Unterhaltsreinigung</li>
+      <li><span class="ck">✓</span> Einzugs- &amp; Auszugsreinigung</li>
+      <li><span class="ck">✓</span> Von besenrein bis glänzend sauber</li>
+    </ul>
+  </div>
+  <div class="scene__float">Willkommen <em>zuhause.</em><span class="sm">Zum Aufatmen sauber</span></div>
+</section>
+
+<!-- step 7: CTA -->
+<section class="ov ov--cta" data-step="7">
+  <div class="ov__inner">
+    <span class="cta__badge">★ Faire-Preis-Garantie</span>
+    <h2 class="cta__title">Jetzt <em>anfragen.</em></h2>
+    <p class="cta__lede">Sauberkeit, auf die Sie sich verlassen können — zum garantiert fairen Preis.</p>
+    <div class="cta__grid">
+      <a class="cta__card" href="tel:+491736519200" data-tilt data-hot><span>Herr Mese</span><b>+49 173 6519200</b></a>
+      <a class="cta__card" href="tel:+4917620566632" data-tilt data-hot><span>Frau Mese</span><b>+49 176 20566632</b></a>
+      <a class="cta__card" href="mailto:em_dienstleistungen@web.de" data-tilt data-hot><span>E-Mail</span><b>em_dienstleistungen@web.de</b></a>
+      <div class="cta__card" data-tilt><span>Adresse</span><b>Brucknerstr. 4, 85057 Ingolstadt</b></div>
+    </div>
+    <a class="btn--primary" href="mailto:em_dienstleistungen@web.de?subject=Kostenloses%20Angebot" data-hot>Kostenloses Angebot sichern <span>→</span></a>
+  </div>
+</section>
+
+<!-- ribbon (V1) -->
+<div class="ribbon" aria-hidden="true">
+  <div class="ribbon__row">
+    <span>Vertrauen</span><i>✦</i><span>Präzision</span><i>✦</i><span>Zuverlässigkeit</span><i>✦</i><span>Sauberkeit</span><i>✦</i><span>Qualität</span><i>✦</i>
+    <span>Vertrauen</span><i>✦</i><span>Präzision</span><i>✦</i><span>Zuverlässigkeit</span><i>✦</i><span>Sauberkeit</span><i>✦</i><span>Qualität</span><i>✦</i>
+  </div>
+</div>
+
+<!-- scroll hint -->
+<div class="hint"><div class="hint__mouse"></div><span>Scrollen</span></div>
+
+<a class="version-toggle" href="hub.html"><i></i> Alle Versionen</a>
+
+<!-- loading -->
+<div class="load" id="load">
+  <img class="load__logo" src="assets/logo/em-logo.png" alt="" />
+  <div class="load__name">EM Dienstleistung</div>
+  <div class="load__bar"><i id="loadbar"></i></div>
+  <div class="load__msg">Wird geladen…</div>
+  <div class="load__go" id="loadgo"><div class="hint__mouse"></div><span class="load__msg" style="display:block">Scrollen zum Starten</span></div>
+</div>
+
+<script src="js/final.js"></script>
+</body>
+</html>

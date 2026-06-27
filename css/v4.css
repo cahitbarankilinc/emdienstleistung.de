@@ -1,0 +1,44 @@
+/* ============================================================
+   V4 — Horizontal Journey (extends v3.css)
+   ============================================================ */
+.vintro{min-height:100svh;display:grid;place-items:center;text-align:center;padding:120px var(--gut) 60px;position:relative}
+.vintro__inner{max-width:880px}
+.vintro__title{font-family:var(--fd);font-weight:800;font-size:clamp(2.6rem,7vw,5.6rem);line-height:1.02;letter-spacing:-.03em;color:#fff;margin:24px 0}
+.vintro__lede{font-size:clamp(1.05rem,1.6vw,1.32rem);color:var(--muted);max-width:52ch;margin:0 auto}
+.hint{display:inline-flex;align-items:center;gap:12px;margin-top:40px;font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2)}
+.hint i{width:40px;height:1.5px;background:linear-gradient(90deg,var(--red-soft),transparent);position:relative;overflow:hidden}
+.hint i::after{content:"";position:absolute;left:-40%;top:0;width:40%;height:100%;background:#fff;animation:cue 1.8s var(--e) infinite}
+
+/* horizontal track */
+.track{position:relative}
+.track__pin{height:100svh;overflow:hidden;position:relative}
+.track__rail{display:flex;height:100%;width:max-content;will-change:transform}
+.panel{position:relative;width:100vw;height:100svh;flex:0 0 100vw;display:flex;align-items:center;padding:0 clamp(24px,7vw,120px);overflow:hidden}
+.panel__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.46;transform:scale(1.12);will-change:transform}
+.panel::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,8,10,.85) 0%,rgba(8,8,10,.45) 45%,rgba(8,8,10,.2) 100%);z-index:1}
+.panel__card{position:relative;z-index:2;max-width:560px;padding:clamp(28px,3.5vw,46px);border-radius:26px;box-shadow:0 40px 90px -36px rgba(0,0,0,.8)}
+.panel__no{font-family:var(--fd);font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red-soft)}
+.panel__card h2{font-family:var(--fd);font-weight:800;font-size:clamp(2rem,3.6vw,3.4rem);line-height:1.04;letter-spacing:-.02em;color:#fff;margin:16px 0 14px}
+.panel__card p{color:var(--muted);font-size:1.04rem;max-width:46ch}
+
+/* stat panel */
+.panel--stat{background:radial-gradient(90% 90% at 50% 50%,rgba(192,57,43,.18),transparent 70%);justify-content:center}
+.panel__stats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(24px,5vw,80px);text-align:center}
+.bigstat b{font-family:var(--fd);font-weight:900;font-size:clamp(3.4rem,8vw,7rem);line-height:.85;letter-spacing:-.04em;display:block;
+  background:linear-gradient(120deg,#fff,#e0584a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.bigstat span{color:var(--muted);font-size:1rem;margin-top:12px;display:block}
+
+/* horizontal progress */
+.track__progress{position:absolute;left:clamp(24px,7vw,120px);right:clamp(24px,7vw,120px);bottom:34px;height:3px;border-radius:3px;background:rgba(255,255,255,.12);z-index:5}
+.track__progress span{display:block;height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,var(--red-deep),var(--red-soft));box-shadow:0 0 12px rgba(224,88,74,.7)}
+
+@media (max-width:760px){
+  .panel{flex-direction:column;justify-content:center;text-align:left}
+  .panel__stats{grid-template-columns:1fr 1fr;gap:30px}
+}
+@media (prefers-reduced-motion:reduce){
+  .track__rail{transform:none!important}
+  .panel{width:100%;height:auto;min-height:80svh}
+  .track__rail{flex-direction:column;width:100%}
+  .track__pin{height:auto;overflow:visible}
+}
