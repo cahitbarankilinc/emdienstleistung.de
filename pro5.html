@@ -505,7 +505,8 @@
   var SCRUB    = matchMedia('(min-width:768px) and (pointer:fine)').matches && !reduce;
 
   if(SCRUB){ video.src='assets/video/film_a.mp4'; filmB.src='assets/video/film_b.mp4'; }
-  else { video.src='assets/video/landing_mobile.mp4'; filmB.style.display='none'; }   /* two HQ halves chained on desktop; one light loop on mobile */
+  else { video.src='assets/video/landing_mobile.mp4'; filmB.style.display='none';
+    video.loop=true; video.muted=true; video.defaultMuted=true; video.setAttribute('autoplay',''); video.setAttribute('playsinline',''); video.setAttribute('webkit-playsinline',''); }   /* mobile: one light loop, iOS-friendly */
   function recomputeDur(){ if(SCRUB){ if(filmB.duration)FILM_DURATION=PART1_END+filmB.duration; } else if(video.duration){ FILM_DURATION=video.duration; } }   /* global timeline = split + part-B duration */
   video.addEventListener('loadedmetadata',recomputeDur);
   filmB.addEventListener('loadedmetadata',recomputeDur);
@@ -542,6 +543,7 @@
   function setReady(){ if(ready)return; ready=true; loadbar.style.width='100%'; loader.classList.add('ready'); }
   function dismiss(){
     if(dismissed||!ready)return; dismissed=true;
+    if(!SCRUB){ try{ video.muted=true; var pp=video.play(); if(pp&&pp.catch)pp.catch(function(){}); }catch(e){} }   /* iOS Safari: start the loop on THIS user gesture — JS play() before a tap is blocked on iOS */
     window.scrollTo(0,0);
     loader.classList.add('hide');
     var iv=document.getElementById('introvid'); if(iv){setTimeout(function(){try{iv.pause();}catch(e){}},1100);}
@@ -558,14 +560,18 @@
   filmB.addEventListener('loadeddata',function(){ if(SCRUB)filmB.pause(); });
   video.addEventListener('progress',prog);
   filmB.addEventListener('progress',prog);
-  video.addEventListener('canplaythrough',function(){ if(!SCRUB) setReady(); });   /* mobile: enough to start the loop */
+  video.addEventListener('canplaythrough',function(){ if(!SCRUB) setReady(); });
+  video.addEventListener('canplay',function(){ if(!SCRUB) setReady(); });
+  video.addEventListener('loadedmetadata',function(){ if(!SCRUB) setReady(); });   /* iOS fetches little until play — metadata is enough; the loop starts on the user's tap */
   video.addEventListener('error',setReady);
   setInterval(prog,300);
-  setTimeout(setReady, SCRUB?16000:11000);   /* safety: never stuck */
+  setTimeout(setReady, SCRUB?16000:3500);   /* mobile: don't hang waiting for a buffer iOS won't pre-fetch */
   /* dismiss on the FIRST gesture once ready (loader is a fixed overlay over a locked page) */
   function startGesture(){ if(ready&&!dismissed) dismiss(); }
   window.addEventListener('wheel',startGesture,{passive:true});
+  window.addEventListener('touchstart',startGesture,{passive:true});
   window.addEventListener('touchmove',startGesture,{passive:true});
+  window.addEventListener('touchend',startGesture,{passive:true});
   window.addEventListener('keydown',function(e){ if(ready&&!dismissed&&(e.key===' '||e.key==='Enter'||e.key==='PageDown'||(e.key&&e.key.indexOf('Arrow')===0))){ e.preventDefault(); dismiss(); } });
 
   /* ---------- film scrub + scenes ---------- */
