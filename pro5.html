@@ -237,6 +237,9 @@
     .fs.stage3d .fs__inner,.fs.stage3d .fscard{opacity:1!important;transform:none!important}
     /* on narrow phones swap the 90px horizontal slide for a small vertical one so text never clips off the edge */
     .fs.left .fs__inner,.fs.right .fs__inner{transform:translateY(calc((1 - var(--rev,0)) * 22px))!important}
+    /* Industrieniveau footage on phones: shrink the visible band to 85% (≈15% shorter) and centre it → object-fit:cover then reveals more of the LEFT/RIGHT detail the user wants seen. Dark top/bottom gaps blend into .fs__grade's existing edge darkening. */
+    #eis .fs__bg{display:flex;align-items:center;overflow:hidden}
+    #eis .fs__bg video{height:85%;transform:none}
   }
 
   /* ---------- V5 sticky-stacking services ---------- */
