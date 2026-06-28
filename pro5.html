@@ -278,10 +278,6 @@
   .rowline small{display:block;color:rgba(244,241,235,.6);font-size:.76rem;letter-spacing:.04em}
   .legal{max-width:1080px;margin:46px auto 0;text-align:center;font-size:12.5px;color:rgba(244,241,235,.5);border-top:1px solid rgba(244,241,235,.07);padding-top:26px}
   @media(max-width:840px){.kontakt__in{grid-template-columns:1fr;gap:30px}.contact-card{grid-template-columns:1fr}}
-
-  .vtoggle{position:fixed;left:18px;bottom:58px;z-index:45;font-family:'Sora';font-weight:700;font-size:.78rem;color:#fff;background:rgba(20,16,15,.5);border:1px solid rgba(244,241,235,.14);border-radius:99px;padding:8px 15px;text-decoration:none;display:inline-flex;gap:8px;align-items:center;opacity:.6;transition:opacity .3s,transform .3s var(--ease)}
-  .vtoggle:hover{opacity:1;transform:translateY(-2px)}.vtoggle i{width:6px;height:6px;border-radius:99px;background:var(--red-bright)}
-  @media(max-width:760px){.vtoggle{display:none}}
   @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.05ms!important}.fs__inner{opacity:1!important;transform:none!important}.panel{animation:none}}
 </style>
 </head>
@@ -485,7 +481,6 @@
 </section>
 
 <div class="cue" id="cue"><span>Scrollen</span><span class="mouse"></span></div>
-<a class="vtoggle" href="hub.html"><i></i> Alle Versionen</a>
 
 <script>
   document.getElementById('yr').textContent = new Date().getFullYear();
