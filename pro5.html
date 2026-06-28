@@ -130,6 +130,25 @@
   .vmarq__track{display:flex;width:max-content;will-change:transform}
   .vmarq__track span{font-family:'Sora';font-weight:800;font-size:clamp(2rem,5vw,4rem);letter-spacing:.02em;text-transform:uppercase;white-space:nowrap;padding-right:.2em;color:transparent;-webkit-text-stroke:1.4px rgba(244,241,235,.4)}
 
+  /* ===== Referenzen / Kunden — dual logo marquee (Option 6) ===== */
+  .refs{position:relative;z-index:2;background:#0b0a09;padding:74px 0 82px;overflow:hidden}
+  .refs__head{text-align:center;margin:0 auto 38px;padding:0 22px;max-width:780px}
+  .refs__head .eyebrow{justify-content:center}
+  .refs__head .eyebrow::before{background:linear-gradient(270deg,var(--red-bright),transparent)}
+  .refs__title{font-family:'Sora';font-weight:800;font-size:clamp(1.7rem,3.6vw,2.6rem);letter-spacing:-.02em;color:#fff;line-height:1.05}
+  .refs__title em{font-style:normal;color:var(--red-bright)}
+  .refs__sub{color:rgba(244,241,235,.62);margin-top:12px;font-size:1rem}
+  .refmq{position:relative;overflow:hidden;
+     -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+  .refmq__row{display:flex;align-items:center;gap:20px;width:max-content;will-change:transform}   /* slid by scroll (updateRefs) */
+  .clogo{flex:none;display:flex;align-items:center;gap:15px;height:88px;background:#fff;border-radius:16px;padding:0 26px;box-shadow:0 18px 44px -26px rgba(0,0,0,.65)}
+  .clogo img{height:56px;width:auto;max-width:118px;object-fit:contain;display:block}   /* square brand marks — tall & prominent */
+  .clogo .cn{font-family:'Sora';font-weight:700;font-size:1.08rem;color:#191919;white-space:nowrap;line-height:1.12}
+  .clogo .cn small{display:block;font-family:'Inter';font-weight:500;font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:#8a8a8a;margin-top:2px}
+  .clogo--wide{padding:0 28px}
+  .clogo--wide img{height:48px;width:auto;max-width:380px}   /* horizontal lockups — uniform height, width natural */
+  @media(prefers-reduced-motion:reduce){.refmq__row{transform:none!important}}
+
   /* =========================================================
      FULL-SCREEN SCROLL-DRIVEN SCENES  (--pass: -1..0..1 ; --rev: 0..1 at centre)
      ========================================================= */
@@ -360,6 +379,18 @@
   </div>
 </main>
 
+<!-- ===== Referenzen / Kunden — dual logo marquee (between film & stage) ===== -->
+<section class="refs" id="referenzen">
+  <div class="refs__head">
+    <span class="eyebrow">Referenzen</span>
+    <h2 class="refs__title">Diese Betriebe <em>vertrauen uns.</em></h2>
+    <p class="refs__sub">Vom Imbiss bis zur Filiale — Sauberkeit, auf die man sich verlässt.</p>
+  </div>
+  <div class="refmq">
+    <div class="refmq__row" id="refrow"></div>
+  </div>
+</section>
+
 <!-- ===== Cyberpunk 3D stage · Alles aus einer Hand ===== -->
 <section class="fs stage3d center" id="leistungen">
   <div class="env">
@@ -577,6 +608,7 @@
     updateCardVids();
     updateFs();
     updateMarquee();
+    updateRefs();
     if(SCRUB&&!rafActive){rafActive=true;requestAnimationFrame(tick);}
   }
   function tick(){
@@ -589,8 +621,39 @@
 
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',onScroll);
-  window.addEventListener('load',function(){updateScenes(getProgress());updateFs();updateMarquee();});
+  window.addEventListener('load',function(){updateScenes(getProgress());updateFs();updateMarquee();if(typeof updateRefs==='function')updateRefs();});
   updateScenes(0);updateFs();updateMarquee();
+
+  /* Referenzen / Kunden — real brand logos (with name) + generated business logos; scroll-driven slide */
+  var CLIENTS=[
+    {img:'assets/logos/tuerk-guecu.jpeg',name:'Türk Gücü Ingolstadt',sub:'Sportverein'},
+    {img:'assets/logos/gen-berlin-doener.png',wide:true,alt:'Berlin Döner'},
+    {img:'assets/logos/gen-hoffmann-bau.png',wide:true,alt:'Hoffmann Bau'},
+    {img:'assets/logos/gen-praxis-wagner.png',wide:true,alt:'Praxis Dr. Wagner'},
+    {img:'assets/logos/gen-autohaus-bergmann.png',wide:true,alt:'Autohaus Bergmann'},
+    {img:'assets/logos/gen-schmidt-immobilien.png',wide:true,alt:'Schmidt Immobilien'},
+    {img:'assets/logos/aldi-sued.png',name:'Aldi Süd',sub:'Discounter'},
+    {img:'assets/logos/edeka.jpg',name:'EDEKA',sub:'Supermarkt'},
+    {img:'assets/logos/lidl.png',name:'Lidl',sub:'Discounter'},
+    {img:'assets/logos/gucci-wordmark.jpg',wide:true,alt:'Gucci'},
+    {img:'assets/logos/gen-hotel-donaublick.png',wide:true,alt:'Hotel Donaublick'},
+    {img:'assets/logos/gen-baeckerei-sonne.png',wide:true,alt:'Bäckerei Sonne'}
+  ];
+  (function(){
+    function one(c){
+      if(c.wide) return '<div class="clogo clogo--wide"><img src="'+c.img+'" alt="'+(c.alt||'')+'" loading="lazy"></div>';
+      return '<div class="clogo"><img src="'+c.img+'" alt="'+c.name+'" loading="lazy"><span class="cn">'+c.name+(c.sub?'<small>'+c.sub+'</small>':'')+'</span></div>';
+    }
+    var h='';for(var k=0;k<2;k++){CLIENTS.forEach(function(c){h+=one(c);});}  /* 2× → seamless -50% slide */
+    var row=document.getElementById('refrow'); if(row) row.innerHTML=h;
+  })();
+  var refsSec=document.getElementById('referenzen'), refrow=document.getElementById('refrow');
+  function updateRefs(){
+    if(!refsSec||!refrow) return;
+    var r=refsSec.getBoundingClientRect(), vh=window.innerHeight;
+    var prog=Math.max(0,Math.min(1,(vh - r.top)/(vh + r.height)));   /* 0 entering → 1 leaving */
+    refrow.style.transform='translateX('+(-prog*50).toFixed(2)+'%)';  /* logos slide left as you scroll down */
+  }
 
   /* 3D tilt */
   if(matchMedia('(hover:hover) and (pointer:fine)').matches && !reduce){

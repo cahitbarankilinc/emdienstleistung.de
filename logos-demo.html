@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Logo-Showcase · 10 Varianten — EM Dienstleistung</title>
+<link rel="icon" href="assets/logo/em-logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{--red:#C0392B;--red-deep:#A93226;--red-bright:#e0584a;--glow:#ff7a5c;--paper:#F4F1EB;--ease:cubic-bezier(.22,.61,.36,1)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0b0a09;color:var(--paper);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit}
+  h2.sec-title{font-family:'Sora';font-weight:800;font-size:1.05rem;letter-spacing:-.01em;color:#fff}
+  /* page chrome */
+  .top{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px clamp(18px,4vw,48px);background:rgba(11,10,9,.72);backdrop-filter:blur(12px);border-bottom:1px solid rgba(244,241,235,.1)}
+  .top .brand{display:flex;align-items:center;gap:11px}
+  .top .brand img{width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(192,57,43,.5))}
+  .top .brand b{font-family:'Sora';font-weight:800;font-size:16px;color:#fff}.top .brand b span{color:var(--red-bright)}
+  .top .hint{font-size:13px;color:rgba(244,241,235,.6)}
+  .intro{max-width:900px;margin:0 auto;padding:46px clamp(18px,4vw,48px) 8px;text-align:center}
+  .intro h1{font-family:'Sora';font-weight:800;font-size:clamp(1.9rem,4.4vw,3rem);letter-spacing:-.03em;color:#fff}
+  .intro p{color:rgba(244,241,235,.7);margin-top:12px;font-size:1.05rem}
+  .eb{font-family:'Sora';font-weight:600;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--red-bright)}
+  /* option block */
+  .opt{max-width:1180px;margin:0 auto;padding:40px clamp(18px,4vw,48px)}
+  .opt + .opt{border-top:1px solid rgba(244,241,235,.08)}
+  .opt__head{display:flex;align-items:baseline;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+  .opt__no{font-family:'Sora';font-weight:800;font-size:1.5rem;color:var(--red-bright);line-height:1}
+  .opt__desc{color:rgba(244,241,235,.55);font-size:.92rem}
+  .pick{margin-left:auto;font-family:'Sora';font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:rgba(192,57,43,.85);border-radius:99px;padding:7px 15px}
+
+  /* ============ shared logo primitives ============ */
+  .logo{display:block;object-fit:contain}
+  /* white/cream chip so every brand (incl. black Gucci) reads */
+  .chip{display:grid;place-items:center;background:#fff;border-radius:16px;padding:22px 26px;box-shadow:0 18px 50px -24px rgba(0,0,0,.7)}
+  .chip .logo{max-height:54px;max-width:130px;width:auto}
+
+  /* ---- 1 · Marquee (mono → colour on hover) ---- */
+  .mq{position:relative;overflow:hidden;padding:8px 0;border-block:1px solid rgba(244,241,235,.12);
+     -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .mq__row{display:flex;align-items:center;gap:34px;width:max-content;animation:scrollx 26s linear infinite}
+  .mq:hover .mq__row{animation-play-state:paused}
+  .mq .chip{padding:16px 22px;background:#f4f1eb}
+  .mq .logo{filter:grayscale(1) contrast(.9) opacity(.85);transition:filter .4s var(--ease)}
+  .mq .chip:hover .logo{filter:none}
+  @keyframes scrollx{to{transform:translateX(-50%)}}
+
+  /* ---- 2 · Glass grid ---- */
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .glass{position:relative;display:grid;place-items:center;min-height:150px;border-radius:20px;
+     background:rgba(255,255,255,.05);border:1px solid rgba(244,241,235,.13);backdrop-filter:blur(8px);
+     transition:transform .45s var(--ease),background .45s,border-color .45s,box-shadow .45s}
+  .glass:hover{transform:translateY(-6px);background:rgba(255,255,255,.09);border-color:rgba(224,88,74,.45);box-shadow:0 30px 60px -30px rgba(224,88,74,.4)}
+  .glass .inner{background:#fff;border-radius:14px;padding:18px 22px;display:grid;place-items:center}
+  .glass .logo{max-height:46px;max-width:120px}
+  @media(max-width:760px){.grid4{grid-template-columns:1fr 1fr}}
+
+  /* ---- 3 · Spotlight carousel ---- */
+  .spot{display:flex;align-items:center;justify-content:center;gap:40px;min-height:220px;border-radius:24px;
+     background:radial-gradient(70% 100% at 50% 0%,rgba(192,57,43,.16),transparent 70%),rgba(255,255,255,.03);border:1px solid rgba(244,241,235,.1);flex-wrap:wrap;text-align:center}
+  .spot__stage{position:relative;width:240px;height:120px}
+  .spot__item{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transform:scale(.9);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+  .spot__item.on{opacity:1;transform:scale(1)}
+  .spot__item .chip{padding:18px 26px}
+  .spot__item .logo{max-height:64px;max-width:170px}
+  .spot__meta{min-width:200px}
+  .spot__meta .eb{display:block;margin-bottom:6px}
+  .spot__name{font-family:'Sora';font-weight:800;font-size:1.6rem;color:#fff}
+
+  /* ---- 4 · 3D tilt cards ---- */
+  .tiltrow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .tcard{position:relative;border-radius:20px;background:#fff;min-height:150px;display:grid;place-items:center;padding:24px;
+     box-shadow:0 24px 60px -30px rgba(0,0,0,.8);transform-style:preserve-3d;transition:transform .3s var(--ease),box-shadow .3s;will-change:transform}
+  .tcard::after{content:"";position:absolute;inset:0;border-radius:20px;background:linear-gradient(120deg,rgba(255,255,255,.6),transparent 40%);opacity:0;transition:opacity .3s;pointer-events:none}
+  .tcard:hover::after{opacity:.5}
+  .tcard .logo{max-height:52px;max-width:130px}
+  @media(max-width:760px){.tiltrow{grid-template-columns:1fr 1fr}}
+
+  /* ---- 5 · Editorial inline ---- */
+  .edi{text-align:center}
+  .edi h3{font-family:'Sora';font-weight:300;font-size:clamp(1.4rem,3vw,2.2rem);color:#fff;letter-spacing:-.02em}
+  .edi h3 b{font-weight:800}
+  .edi__row{display:flex;align-items:center;justify-content:center;gap:clamp(16px,3vw,30px);margin-top:34px;flex-wrap:wrap}
+  .edi .l{background:#fff;border-radius:13px;padding:14px 20px;display:grid;place-items:center;box-shadow:0 16px 40px -24px rgba(0,0,0,.7);transition:transform .35s var(--ease)}
+  .edi .l:hover{transform:translateY(-4px)}
+  .edi .logo{max-height:34px;max-width:100px}
+
+  /* ---- 6 · Dual counter-marquee ---- */
+  .dmq{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:14px;padding:6px 0;
+     -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .dmq__row{display:flex;align-items:center;gap:24px;width:max-content}
+  .dmq__row.a{animation:scrollx 30s linear infinite}
+  .dmq__row.b{animation:scrollx 34s linear infinite reverse}
+  .dmq .chip{padding:14px 20px;background:#fff;border-radius:13px}
+  .dmq .logo{max-height:38px;max-width:104px}
+
+  /* ---- 7 · Brand-glow dark cards ---- */
+  .glowrow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .gcard{position:relative;border-radius:20px;min-height:150px;display:grid;place-items:center;padding:22px;
+     background:#141110;border:1px solid rgba(244,241,235,.12);overflow:hidden;transition:border-color .4s var(--ease),transform .4s}
+  .gcard::before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent,rgba(224,88,74,.5),transparent 30%);opacity:0;transition:opacity .5s;animation:spin 6s linear infinite}
+  .gcard:hover{transform:translateY(-5px);border-color:rgba(224,88,74,.5)}
+  .gcard:hover::before{opacity:1}
+  .gcard .inner{position:relative;z-index:1;background:#fff;border-radius:13px;padding:16px 20px;display:grid;place-items:center}
+  .gcard .logo{max-height:46px;max-width:120px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media(max-width:760px){.glowrow{grid-template-columns:1fr 1fr}}
+
+  /* ---- 8 · Hexagon honeycomb ---- */
+  .hexrow{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
+  .hex{width:160px;height:182px;display:grid;place-items:center;background:#fff;
+     clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);transition:transform .4s var(--ease),filter .4s}
+  .hex:nth-child(even){margin-top:40px}
+  .hex:hover{transform:scale(1.05) translateY(-4px)}
+  .hex .logo{max-height:48px;max-width:104px}
+  @media(max-width:560px){.hex{width:130px;height:148px}.hex:nth-child(even){margin-top:0}}
+
+  /* ---- 9 · Scroll-reveal stat grid ---- */
+  .statwrap{display:grid;grid-template-columns:auto 1fr;gap:clamp(28px,5vw,64px);align-items:center}
+  .statbig{font-family:'Sora';font-weight:900;font-size:clamp(3.4rem,8vw,6rem);line-height:.9;color:#fff;letter-spacing:-.04em}
+  .statbig span{color:var(--red-bright)}
+  .statbig small{display:block;font-size:.95rem;font-weight:600;letter-spacing:.02em;color:rgba(244,241,235,.65);margin-top:10px}
+  .revgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .revgrid .chip{padding:16px 18px;opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .revgrid.in .chip{opacity:1;transform:none}
+  .revgrid .chip:nth-child(2){transition-delay:.08s}.revgrid .chip:nth-child(3){transition-delay:.16s}.revgrid .chip:nth-child(4){transition-delay:.24s}
+  .revgrid .logo{max-height:40px;max-width:104px}
+  @media(max-width:760px){.statwrap{grid-template-columns:1fr}.revgrid{grid-template-columns:1fr 1fr}}
+
+  /* ---- 10 · Minimal pill row ---- */
+  .pillrow{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+  .pill{background:#fff;border-radius:99px;padding:16px 30px;display:grid;place-items:center;transition:transform .35s var(--ease),box-shadow .35s}
+  .pill:hover{transform:translateY(-4px);box-shadow:0 20px 40px -20px rgba(0,0,0,.7)}
+  .pill .logo{max-height:40px;max-width:108px}
+
+  .foot{text-align:center;padding:50px 20px;color:rgba(244,241,235,.4);font-size:13px;border-top:1px solid rgba(244,241,235,.08)}
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="brand" href="pro5.html"><img src="assets/logo/em-logo.png" alt="" /><b>EM <span>Dienstleistung</span></b></a>
+  <span class="hint">Logo-Showcase · sag mir welche Nummer dir gefällt →</span>
+</div>
+
+<div class="intro">
+  <span class="eb">Referenzen / Kunden</span>
+  <h1>10 Varianten für die Marken-Logos</h1>
+  <p>Aldi Süd · EDEKA · Lidl · Gucci — schau dir die Optionen an und sag mir, welche Nummer ich ins Live-Web (pro5) einbauen soll.</p>
+</div>
+
+<!-- 1 -->
+<section class="opt">
+  <div class="opt__head"><span class="opt__no">01</span><div><h2 class="sec-title">Laufband (Marquee)</h2><span class="opt__desc">Endlos scrollend, dezent entfärbt — bei Hover in Farbe. Klassisch & elegant.</span></div><span class="pick">Option 1</span></div>
+  <div class="mq"><div class="mq__row" id="mqrow"></div></div>
+</section>
+
+<!-- 2 -->
+<section class="opt">
+  <div class="opt__head"><span class="opt__no">02</span><div><h2 class="sec-title">Glas-Kacheln</h2><span class="opt__desc">Frosted-Glass-Karten mit Logo-Chip, schweben &amp; glühen beim Hover.</span></div><span class="pick">Option 2</span></div>
+  <div class="grid4">
+    <div class="glass"><div class="inner"><img class="logo" src="assets/logos/aldi-sued.png" alt="Aldi Süd"></div></div>
+    <div class="glass"><div class="inner"><img class="logo" src="assets/logos/edeka.jpg" alt="EDEKA"></div></div>
+    <div class="glass"><div class="inner"><img class="logo" src="assets/logos/lidl.png" alt="Lidl"></div></div>
+    <div class="glass"><div class="inner"><img class="logo" src="assets/logos/gucci.png" alt="Gucci"></div></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="opt">
+  <div class="opt__head"><span class="opt__no">03</span><div><h2 class="sec-title">Spotlight-Karussell</h2><span class="opt__desc">Ein Logo nach dem anderen, groß im Rampenlicht — mit Markenname.</span></div><span class="pick">Option 3</span></div>
+  <div class="spot">
+    <div class="spot__meta"><span class="eb">Im Einsatz für</span><div class="spot__name" id="spotName">Aldi Süd</div></div>
+    <div class="spot__stage" id="spotStage">
+      <div class="spot__item on"><div class="chip"><img class="logo" src="assets/logos/aldi-sued.png" alt="Aldi Süd"></div></div>
+      <div class="spot__item"><div class="chip"><img class="logo" src="assets/logos/edeka.jpg" alt="EDEKA"></div></div>
+      <div class="spot__item"><div class="chip"><img class="logo" src="assets/logos/lidl.png" alt="Lidl"></div></div>
+      <div class="spot__item"><div class="chip"><img class="logo" src="assets/logos/gucci.png" alt="Gucci"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="opt">
+  <div class="opt__head"><span class="opt__no">04</span><div><h2 class="sec-title">3D-Tilt-Karten</h2><span class="opt__desc">Weiße Karten, die der Maus folgen (3D-Neigung + Glanz). Premium &amp; verspielt.</span></div><span class="pick">Option 4</span></div>
+  <div class="tiltrow">
+    <div class="tcard" data-tilt><img class="logo" src="assets/logos/aldi-sued.png" alt="Aldi Süd"></div>
+    <div class="tcard" data-tilt><img class="logo" src="assets/logos/edeka.jpg" alt="EDEKA"></div>
+    <div class="tcard" data-tilt><img class="logo" src="assets/logos/lidl.png" alt="Lidl"></div>
+    <div class="tcard" data-tilt><img class="logo" src="assets/logos/gucci.png" alt="Gucci"></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="opt">
+  <div class="opt__head"><span class="opt__no">05</span><div><h2 class="sec-title">Editorial-Aussage</h2><span class="opt__desc">Headline-Satz mit kleinen Logo-Chips darunter — edel &amp; zurückhaltend.</span></div><span class="pick">Option 5</span></div>
+  <div class="edi">
+    <h3>Vertraut von <b>führenden Marken.</b></h3>
+    <div class="edi__row">
+      <span class="l"><img class="logo" src="assets/logos/aldi-sued.png" alt="Aldi Süd"></span>
+      <span class="l"><img class="logo" src="assets/logos/edeka.jpg" alt="EDEKA"></span>
+      <span class="l"><img class="logo" src="assets/logos/lidl.png" alt="Lidl"></span>
+      <span class="l"><img class="logo" src="assets/logos/gucci.png" alt="Gucci"></span>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="opt">
+  <div class="opt__head"><span class="opt__no">06</span><div><h2 class="sec-title">Doppel-Laufband</h2><span class="opt__desc">Zwei Reihen, gegenläufig scrollend — dynamisch &amp; voll.</span></div><span class="pick">Option 6</span></div>
+  <div class="dmq"><div class="dmq__row a" id="dmqA"></div><div class="dmq__row b" id="dmqB"></div></div>
+</section>
+
+<!-- 7 -->
+<section class="opt">
+  <div class="opt__head"><span class="opt__no">07</span><div><h2 class="sec-title">Marken-Glow-Karten</h2><span class="opt__desc">Dunkle Karten mit rotierendem rotem Glüh-Rand beim Hover. Auffällig.</span></div><span class="pick">Option 7</span></div>
+  <div class="glowrow">
+    <div class="gcard"><div class="inner"><img class="logo" src="assets/logos/aldi-sued.png" alt="Aldi Süd"></div></div>
+    <div class="gcard"><div class="inner"><img class="logo" src="assets/logos/edeka.jpg" alt="EDEKA"></div></div>
+    <div class="gcard"><div class="inner"><img class="logo" src="assets/logos/lidl.png" alt="Lidl"></div></div>
+    <div class="gcard"><div class="inner"><img class="logo" src="assets/logos/gucci.png" alt="Gucci"></div></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="opt">
+  <div class="opt__head"><span class="opt__no">08</span><div><h2 class="sec-title">Waben (Hexagon)</h2><span class="opt__desc">Logos in versetzten Sechsecken — markant &amp; modern.</span></div><span class="pick">Option 8</span></div>
+  <div class="hexrow">
+    <div class="hex"><img class="logo" src="assets/logos/aldi-sued.png" alt="Aldi Süd"></div>
+    <div class="hex"><img class="logo" src="assets/logos/edeka.jpg" alt="EDEKA"></div>
+    <div class="hex"><img class="logo" src="assets/logos/lidl.png" alt="Lidl"></div>
+    <div class="hex"><img class="logo" src="assets/logos/gucci.png" alt="Gucci"></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="opt">
+  <div class="opt__head"><span class="opt__no">09</span><div><h2 class="sec-title">Statement + Reveal</h2><span class="opt__desc">Große Kennzahl neben einem Logo-Raster, das beim Scrollen erscheint.</span></div><span class="pick">Option 9</span></div>
+  <div class="statwrap">
+    <div class="statbig"><span>Namhafte</span><br>Marken<small>vertrauen auf unsere Sauberkeit.</small></div>
+    <div class="revgrid" id="revgrid">
+      <div class="chip"><img class="logo" src="assets/logos/aldi-sued.png" alt="Aldi Süd"></div>
+      <div class="chip"><img class="logo" src="assets/logos/edeka.jpg" alt="EDEKA"></div>
+      <div class="chip"><img class="logo" src="assets/logos/lidl.png" alt="Lidl"></div>
+      <div class="chip"><img class="logo" src="assets/logos/gucci.png" alt="Gucci"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="opt">
+  <div class="opt__head"><span class="opt__no">10</span><div><h2 class="sec-title">Minimal-Pillen</h2><span class="opt__desc">Schlichte weiße Pillen in einer Reihe — clean &amp; zurückhaltend.</span></div><span class="pick">Option 10</span></div>
+  <div class="pillrow">
+    <div class="pill"><img class="logo" src="assets/logos/aldi-sued.png" alt="Aldi Süd"></div>
+    <div class="pill"><img class="logo" src="assets/logos/edeka.jpg" alt="EDEKA"></div>
+    <div class="pill"><img class="logo" src="assets/logos/lidl.png" alt="Lidl"></div>
+    <div class="pill"><img class="logo" src="assets/logos/gucci.png" alt="Gucci"></div>
+  </div>
+</section>
+
+<div class="foot">EM Dienstleistung · Logo-Showcase — sag mir die Nummer, dann baue ich diese Variante in pro5 ein.</div>
+
+<script>
+  var LOGOS=[
+    {src:'assets/logos/aldi-sued.png',name:'Aldi Süd'},
+    {src:'assets/logos/edeka.jpg',name:'EDEKA'},
+    {src:'assets/logos/lidl.png',name:'Lidl'},
+    {src:'assets/logos/gucci.png',name:'Gucci'}
+  ];
+  function chipsHTML(cls){var h='';for(var k=0;k<3;k++){LOGOS.forEach(function(l){h+='<div class="chip"><img class="logo" src="'+l.src+'" alt="'+l.name+'"></div>';});}return h;}
+  document.getElementById('mqrow').innerHTML=chipsHTML();
+  document.getElementById('dmqA').innerHTML=chipsHTML();
+  document.getElementById('dmqB').innerHTML=chipsHTML();
+
+  /* spotlight carousel */
+  (function(){
+    var items=document.querySelectorAll('#spotStage .spot__item');
+    var name=document.getElementById('spotName');var i=0;
+    setInterval(function(){items[i].classList.remove('on');i=(i+1)%items.length;items[i].classList.add('on');name.textContent=LOGOS[i].name;},2200);
+  })();
+
+  /* scroll-reveal grid */
+  (function(){
+    var g=document.getElementById('revgrid');
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)g.classList.add('in');});},{threshold:.3}).observe(g);
+    } else g.classList.add('in');
+  })();
+
+  /* 3D tilt */
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+    document.querySelectorAll('[data-tilt]').forEach(function(el){
+      el.addEventListener('mousemove',function(e){var r=el.getBoundingClientRect();var rx=-((e.clientY-r.top)/r.height-.5)*14;var ry=((e.clientX-r.left)/r.width-.5)*14;el.style.transform='perspective(620px) rotateX('+rx+'deg) rotateY('+ry+'deg) translateY(-4px)';});
+      el.addEventListener('mouseleave',function(){el.style.transform='';});
+    });
+  }
+</script>
+</body>
+</html>
