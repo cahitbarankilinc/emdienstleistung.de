@@ -17,6 +17,7 @@
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:auto;-webkit-text-size-adjust:100%}
+  html.lock,html.lock body{overflow:hidden!important;height:100%;touch-action:none}   /* scroll held until the film is loaded */
   body{background:#0b0a09;color:var(--paper);font-family:'Inter',system-ui,sans-serif;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
   ::selection{background:var(--red);color:#fff}
   a{color:inherit}
@@ -529,17 +530,31 @@
   });
   var dotBtns=Array.prototype.slice.call(dotsWrap.children);
 
-  /* ---------- loader ---------- */
+  /* ---------- loader: HOLD scroll until the film is loaded, then scroll to start (no scroll-into-unloaded jank, esp. mobile) ---------- */
   var ready=false, dismissed=false;
+  document.documentElement.classList.add('lock');
   function setReady(){ if(ready)return; ready=true; loadbar.style.width='100%'; loader.classList.add('ready'); }
-  function dismiss(){ if(dismissed||!ready)return; dismissed=true; loader.classList.add('hide'); var iv=document.getElementById('introvid'); if(iv){setTimeout(function(){try{iv.pause();}catch(e){}},1100);} }
-  function prog(){ try{ if(video.duration){ var bf=video.buffered.length?video.buffered.end(video.buffered.length-1):0; loadbar.style.width=Math.min(100,(bf/video.duration)*100)+'%'; if(bf/video.duration>0.3||video.readyState>=4) setReady(); } }catch(e){} }
+  function dismiss(){
+    if(dismissed||!ready)return; dismissed=true;
+    window.scrollTo(0,0);
+    loader.classList.add('hide');
+    var iv=document.getElementById('introvid'); if(iv){setTimeout(function(){try{iv.pause();}catch(e){}},1100);}
+    setTimeout(function(){ document.documentElement.classList.remove('lock'); window.scrollTo(0,0); if(typeof onScroll==='function')onScroll(); },1000);  /* unlock after the fade — momentum can't skip the start */
+  }
+  function prog(){ try{ if(!video.duration) return; var bf=video.buffered.length?video.buffered.end(video.buffered.length-1):0; var frac=bf/video.duration; loadbar.style.width=Math.min(100,frac*100)+'%';
+    var need = SCRUB ? 0.85 : 0.40;   /* desktop needs near-full buffer for smooth scrubbing; mobile just needs a head start for the loop */
+    if(frac>=need || video.readyState>=4) setReady(); }catch(e){} }
   video.addEventListener('loadeddata',function(){ if(SCRUB){video.pause();} else {video.loop=true;video.play().catch(function(){});} });
   video.addEventListener('progress',prog);
-  video.addEventListener('canplaythrough',setReady);
+  video.addEventListener('canplaythrough',function(){ if(!SCRUB) setReady(); });   /* mobile: enough to start the loop */
   video.addEventListener('error',setReady);
   setInterval(prog,300);
-  setTimeout(setReady,9000);
+  setTimeout(setReady, SCRUB?16000:11000);   /* safety: never stuck */
+  /* dismiss on the FIRST gesture once ready (loader is a fixed overlay over a locked page) */
+  function startGesture(){ if(ready&&!dismissed) dismiss(); }
+  window.addEventListener('wheel',startGesture,{passive:true});
+  window.addEventListener('touchmove',startGesture,{passive:true});
+  window.addEventListener('keydown',function(e){ if(ready&&!dismissed&&(e.key===' '||e.key==='Enter'||e.key==='PageDown'||(e.key&&e.key.indexOf('Arrow')===0))){ e.preventDefault(); dismiss(); } });
 
   /* ---------- film scrub + scenes ---------- */
   var targetTime=0,curTime=0,rafActive=false;
@@ -617,7 +632,7 @@
     if(video.readyState>=2&&isFinite(video.duration)){var t=Math.min(FILM_END,Math.min(video.duration-0.05,Math.max(0,curTime)));if(Math.abs(video.currentTime-t)>0.012){try{video.currentTime=t;}catch(e){}}}
     if(rafActive)requestAnimationFrame(tick);
   }
-  loader.querySelector('.go').addEventListener('click',function(){ if(ready){ dismiss(); window.scrollTo({top:Math.round(filmMax()*0.02),behavior:'smooth'}); } });
+  loader.querySelector('.go').addEventListener('click',function(){ if(ready){ dismiss(); } });
 
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',onScroll);
