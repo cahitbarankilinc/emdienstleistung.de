@@ -309,7 +309,7 @@
 
 <main id="top" class="scroll-root">
   <div class="stage">
-    <div class="film"><video id="film" muted playsinline preload="auto" poster="assets/img/landing-poster.jpg"></video></div>
+    <div class="film"><video id="film" muted playsinline preload="auto" poster="assets/img/landing-poster.jpg"></video><video id="filmB" muted playsinline preload="auto" style="opacity:0"></video></div>
     <div class="grade"></div>
     <div class="sidescrim"></div>
     <div class="scenes" id="scenes">
@@ -488,7 +488,9 @@
   document.getElementById('yr').textContent = new Date().getFullYear();
   var FILM_DURATION = 46.08;
   var FILM_END = 45.0;   /* the film fades to black after ~45.5s — hold the last bright frame so the end scene never goes dark */
-  var video    = document.getElementById('film');
+  var video    = document.getElementById('film');    /* part A (0 → PART1_END) — keeps id="film" for all existing refs */
+  var filmB    = document.getElementById('filmB');    /* part B (PART1_END → end) */
+  var PART1_END = 23.0;   /* the EXACT split point (source seconds): part A = [0,23.0], part B starts at source 23.0 */
   var root     = document.querySelector('.scroll-root');
   var scenes   = Array.prototype.slice.call(document.querySelectorAll('.scenes .scene'));
   var progress = document.getElementById('progress');
@@ -502,7 +504,11 @@
   var reduce   = matchMedia('(prefers-reduced-motion:reduce)').matches;
   var SCRUB    = matchMedia('(min-width:768px) and (pointer:fine)').matches && !reduce;
 
-  video.src = SCRUB ? 'assets/video/landing.mp4' : 'assets/video/landing_mobile.mp4';
+  if(SCRUB){ video.src='assets/video/film_a.mp4'; filmB.src='assets/video/film_b.mp4'; }
+  else { video.src='assets/video/landing_mobile.mp4'; filmB.style.display='none'; }   /* two HQ halves chained on desktop; one light loop on mobile */
+  function recomputeDur(){ if(SCRUB){ if(filmB.duration)FILM_DURATION=PART1_END+filmB.duration; } else if(video.duration){ FILM_DURATION=video.duration; } }   /* global timeline = split + part-B duration */
+  video.addEventListener('loadedmetadata',recomputeDur);
+  filmB.addEventListener('loadedmetadata',recomputeDur);
 
   /* marquee slides on scroll (V1 scrub behaviour, vanilla): translateX 0 → -50% as the strip passes through */
   function updateMarquee(){
@@ -541,11 +547,17 @@
     var iv=document.getElementById('introvid'); if(iv){setTimeout(function(){try{iv.pause();}catch(e){}},1100);}
     setTimeout(function(){ document.documentElement.classList.remove('lock'); window.scrollTo(0,0); if(typeof onScroll==='function')onScroll(); },1000);  /* unlock after the fade — momentum can't skip the start */
   }
-  function prog(){ try{ if(!video.duration) return; var bf=video.buffered.length?video.buffered.end(video.buffered.length-1):0; var frac=bf/video.duration; loadbar.style.width=Math.min(100,frac*100)+'%';
-    var need = SCRUB ? 0.85 : 0.40;   /* desktop needs near-full buffer for smooth scrubbing; mobile just needs a head start for the loop */
-    if(frac>=need || video.readyState>=4) setReady(); }catch(e){} }
+  function bufFrac(v){ try{ if(!v.duration) return 0; var bf=v.buffered.length?v.buffered.end(v.buffered.length-1):0; return bf/v.duration; }catch(e){ return 0; } }
+  function prog(){ try{
+    var frac = SCRUB ? Math.min(bufFrac(video),bufFrac(filmB)) : bufFrac(video);   /* both halves on desktop */
+    loadbar.style.width=Math.min(100,frac*100)+'%';
+    var need = SCRUB ? 0.72 : 0.40;
+    var rs = SCRUB ? (video.readyState>=4 && filmB.readyState>=4) : (video.readyState>=4);
+    if(frac>=need || rs) setReady(); }catch(e){} }
   video.addEventListener('loadeddata',function(){ if(SCRUB){video.pause();} else {video.loop=true;video.play().catch(function(){});} });
+  filmB.addEventListener('loadeddata',function(){ if(SCRUB)filmB.pause(); });
   video.addEventListener('progress',prog);
+  filmB.addEventListener('progress',prog);
   video.addEventListener('canplaythrough',function(){ if(!SCRUB) setReady(); });   /* mobile: enough to start the loop */
   video.addEventListener('error',setReady);
   setInterval(prog,300);
@@ -626,10 +638,14 @@
     updateRefs();
     if(SCRUB&&!rafActive){rafActive=true;requestAnimationFrame(tick);}
   }
+  function seekFilm(v,t){ if(v.readyState>=2&&isFinite(v.duration)){ var tt=Math.min(v.duration-0.05,Math.max(0,t)); if(Math.abs(v.currentTime-tt)>0.012){ try{v.currentTime=tt;}catch(e){} } } }
+  function showFilm(on,off){ if(off.style.opacity!=='0')off.style.opacity='0'; if(on.style.opacity!=='1')on.style.opacity='1'; }
   function tick(){
     curTime+=(targetTime-curTime)*0.14;
     if(Math.abs(targetTime-curTime)<0.004){curTime=targetTime;rafActive=false;}
-    if(video.readyState>=2&&isFinite(video.duration)){var t=Math.min(FILM_END,Math.min(video.duration-0.05,Math.max(0,curTime)));if(Math.abs(video.currentTime-t)>0.012){try{video.currentTime=t;}catch(e){}}}
+    var g=Math.min(FILM_END,Math.max(0,curTime));   /* global time across the two chained HQ halves */
+    if(g<PART1_END){ seekFilm(video,g); showFilm(video,filmB); }   /* part A — last frame of A == first frame of B → seamless switch */
+    else { seekFilm(filmB,g-PART1_END); showFilm(filmB,video); }
     if(rafActive)requestAnimationFrame(tick);
   }
   loader.querySelector('.go').addEventListener('click',function(){ if(ready){ dismiss(); } });
